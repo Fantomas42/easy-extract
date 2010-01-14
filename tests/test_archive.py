@@ -97,9 +97,11 @@ class ArchiveTestCase(unittest.TestCase):
 
     def test_init(self):
         a = Archive(self.default_name)
-        self.assertEquals(a.name, self.default_name)
         self.assertEquals(a.path, '.')
+        self.assertEquals(a.name, self.default_name)
+        self.assertEquals(a.filenames, [])
         self.assertEquals(a.medkits, [])
+        self.assertEquals(a.archives, [])
         
         a = Archive(self.default_name, './tests')
         self.assertEquals(a.name, self.default_name)
