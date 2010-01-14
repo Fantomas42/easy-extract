@@ -30,17 +30,12 @@ class ArchiveFinder(object):
             
         for filename in filenames:
             archive_class = self.is_archive_file(filename, archive_classes)
+            name = get_filename_name(filename)
             
-            if archive_class:
-                name = get_filename_name(filename)
-                archives.setdefault(name, archive_class(name, path))
-                archives[name].append(filename)
-
-        for archive in archives.values():
-            archive.find_medkits(filenames)
+            if archive_class and not name in archives.keys():
+                archives[name] = archive_class(name, path, filenames)
 
         return archives.values()
-
 
     def find_archives(self, path, recursive, archive_classes=[]):
         """Walk to the root_path finding archives"""
