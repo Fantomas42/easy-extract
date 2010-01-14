@@ -1,8 +1,37 @@
 """Unit tests for Archive object"""
 import unittest
 
+from easy_extract.archive import MedKit
 from easy_extract.archive import Archive
 from easy_extract.utils import escape_filename
+
+
+class MedKitTestCase(unittest.TestCase):
+
+    default_name = 'archive_name'
+
+    def test_init(self):
+        mk = MedKit(self.default_name, '.')
+        self.assertEquals(mk.path, '.')
+        self.assertEquals(mk.medkits, [])
+
+    def test_find_medkits(self):
+        mk = MedKit(self.default_name, './tests/data')
+
+        self.assertEquals(len(mk.medkits), 0)
+        mk.find_medkits()
+        self.assertEquals(len(mk.medkits), 0)
+        filenames = ['%s.par2' % self.default_name,
+                     '%s.vol00+02.par2' % self.default_name,
+                     '%s.vol01+03.PAR2' % self.default_name,
+                     '%s.nzb' % self.default_name]
+        default_name = 'file'
+
+        mk.find_medkits(filenames)
+        self.assertEquals(len(mk.medkits), 3)
+
+    def test_check_and_repair(self):
+        pass
 
 class ArchiveTestCase(unittest.TestCase):
 
@@ -12,12 +41,16 @@ class ArchiveTestCase(unittest.TestCase):
         a = Archive(self.default_name)
         self.assertEquals(a.name, self.default_name)
         self.assertEquals(a.path, '.')
+        self.assertEquals(a.medkits, [])
         
         a = Archive(self.default_name, './tests')
         self.assertEquals(a.name, self.default_name)
         self.assertEquals(a.path, './tests')
 
     def test_extract(self):
+        pass
+
+    def test__extract(self):
         a = Archive(self.default_name)
         self.assertRaises(NotImplementedError, a.extract)
 
@@ -41,14 +74,19 @@ class ArchiveTestCase(unittest.TestCase):
     def test_find_medkit(self):
         a = Archive(self.default_name, './tests/data')
 
-        self.assertEquals(len(a.medkit), 0)
-        a.find_medkit()
-        self.assertEquals(len(a.medkit), 0)
+        self.assertEquals(len(a.medkits), 0)
+        a.find_medkits()
+        self.assertEquals(len(a.medkits), 0)
         filenames = ['%s.par2' % self.default_name,
                      '%s.vol00+02.par2' % self.default_name,
                      '%s.vol01+03.PAR2' % self.default_name,
                      '%s.nzb' % self.default_name]
-        a.find_medkit(filenames)
-        self.assertEquals(len(a.medkit), 3)
+        a.find_medkits(filenames)
+        self.assertEquals(len(a.medkits), 3)
 
-suite = unittest.TestLoader().loadTestsFromTestCase(ArchiveTestCase)
+    def test_check_and_repair(self):
+        pass
+
+suite = unittest.TestSuite([
+    unittest.TestLoader().loadTestsFromTestCase(MedKitTestCase),
+    unittest.TestLoader().loadTestsFromTestCase(ArchiveTestCase)])

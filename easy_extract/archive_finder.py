@@ -36,7 +36,11 @@ class ArchiveFinder(object):
                 archives.setdefault(name, archive_class(name, path))
                 archives[name].append(filename)
 
+        for archive in archives.values():
+            archive.find_medkits(filenames)
+
         return archives.values()
+
 
     def find_archives(self, path, recursive, archive_classes=[]):
         """Walk to the root_path finding archives"""
@@ -57,16 +61,4 @@ class ArchiveFinder(object):
         for ars in self.path_archives_found.values():
             archives.extend(ars)
         return archives
-            
-    def __len__(self):
-        """The length is equals to Archives found"""
-        return len(self.archives)
 
-    def __iter__(self):
-        """Iterate around the Archives found"""
-        for archive in self.archives:
-            yield archive
-
-    def __str__(self):
-        return 'ArchiveFinder %s %s' % (self.path, self.recursive)
-    

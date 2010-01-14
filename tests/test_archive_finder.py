@@ -59,21 +59,5 @@ class ArchiveFinderTestCase(unittest.TestCase):
         
         self.assertEquals(len(af.archives), 3)
 
-    def test_len(self):
-        af = ArchiveFinder()
-        af.path_archives_found = TEST_PATH_ARCHIVES
-        
-        self.assertEquals(len(af.archives), len(af))
-
-    def test_iter(self):
-        af = ArchiveFinder()
-        archives_itered = 0
-        af.path_archives_found = TEST_PATH_ARCHIVES
-        
-        for archive in af:
-            if 'archive_' in archive:
-                archives_itered += 1
-        self.assertEquals(archives_itered, len(af))
-
 
 suite = unittest.TestLoader().loadTestsFromTestCase(ArchiveFinderTestCase)
