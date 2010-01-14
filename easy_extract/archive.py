@@ -82,6 +82,6 @@ class Archive(MedKit):
         raise NotImplementedError
 
     def __str__(self):
-        return '%s\n%i files, %i medkits' % (self.archives[0], len(self.archives),
-                                             len(self.medkits))
+        return '%s (%i archives, %i par2 files)' % (self.name, len(self.archives),
+                                                    len(self.medkits))
 
