@@ -67,16 +67,13 @@ class Archive(MedKit):
                 self.archives.append(filename)
         self.archives.sort()
 
-    def extract(self, check=False):
+    def extract(self, repair=True):
         """Extract the archive and do integrity checking"""
-        if check:
-            if not self.check_and_repair():
-                return False
-            
         extraction = self._extract()
 
-        if not extraction and not check:
-            extraction = self.extract(True)
+        if not extraction and repair:
+            if self.check_and_repair():
+                extraction = self._extract()
         
         return extraction
 

@@ -102,51 +102,68 @@ class ArchiveTestCase(unittest.TestCase):
         self.assertEquals(a.filenames, [])
         self.assertEquals(a.medkits, [])
         self.assertEquals(a.archives, [])
-        
-        a = Archive(self.default_name, './tests')
-        self.assertEquals(a.name, self.default_name)
+
+        filenames = ['%s.par2' % self.default_name,
+                     '%s.ext' % self.default_name,
+                     '%s.vol00+02.par2' % self.default_name,
+                     '%s.vol01+03.PAR2' % self.default_name,
+                     '%s.nzb' % self.default_name]
+        a = Archive(self.default_name, './tests', filenames)
         self.assertEquals(a.path, './tests')
+        self.assertEquals(a.name, self.default_name)
+        self.assertEquals(len(a.filenames), 5)
+        self.assertEquals(len(a.medkits), 3)
+        self.assertEquals(len(a.archives), 0)
+
+    def test_is_archive_file(self):
+        self.assertFalse(Archive.is_archive_file('file'))
 
     def test_extract(self):
-        pass
+        original_extract = Archive._extract
+        
+        def always_extract(cls):
+            return True
+
+        Archive._extract = always_extract
+        a = Archive(self.default_name)
+        self.assertTrue(a.extract())
+
+        def never_extract(cls):
+            return False
+
+        Archive._extract = never_extract
+        a = Archive(self.default_name)
+        self.assertFalse(a.extract())
+        self.assertFalse(a.extract(True))
+
+        def notextract_extract(cls):
+            extract = cls.i % 2
+            cls.i += 1
+            return bool(extract)
+
+        def always_repair(silent=True):
+            return True
+
+        Archive._extract = notextract_extract
+        a = Archive(self.default_name)
+        a.i = 0
+        self.assertFalse(a.extract())
+        self.assertTrue(a.extract())
+        self.assertFalse(a.extract(True))
+        self.assertTrue(a.extract())
+
+        original_check_and_repair = a.check_and_repair
+        a.check_and_repair = always_repair
+        self.assertTrue(a.extract(True))
+        a.check_and_repair = original_check_and_repair
+        self.assertFalse(a.extract())
+
+        Archive._extract = original_extract
 
     def test__extract(self):
         a = Archive(self.default_name)
         self.assertRaises(NotImplementedError, a.extract)
 
-    def test_is_archive_file(self):
-        self.assertFalse(Archive.is_archive_file('file'))
-
-    #def test_append(self):
-    #    a = Archive(self.default_name)
-    #    
-    #    self.assertEquals(len(a.filenames), 0)
-    #    a.append('filename')
-    #    self.assertEquals(len(a.filenames), 1)
-
-    def test_escape_filename(self):
-        a = Archive(self.default_name)
-        string_to_escape = 'File Archive "3".ext'
-        
-        self.assertEquals(a.escape_filename(string_to_escape),
-                          escape_filename(string_to_escape))
-
-    def test_find_medkit(self):
-        a = Archive(self.default_name, './tests/data')
-
-        self.assertEquals(len(a.medkits), 0)
-        a.find_medkits()
-        self.assertEquals(len(a.medkits), 0)
-        filenames = ['%s.par2' % self.default_name,
-                     '%s.vol00+02.par2' % self.default_name,
-                     '%s.vol01+03.PAR2' % self.default_name,
-                     '%s.vol01+03.PAR2' % self.default_name,
-                     '%s.nzb' % self.default_name]
-        a.find_medkits(filenames)
-        self.assertEquals(len(a.medkits), 3)
-
-    def test_check_and_repair(self):
-        pass
 
 suite = unittest.TestSuite([
     unittest.TestLoader().loadTestsFromTestCase(BaseFileCollectionTestCase),
