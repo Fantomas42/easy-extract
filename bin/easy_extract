@@ -8,53 +8,61 @@ from easy_extract.archive_finder import ArchiveFinder
 
 # Patch for disabling extractions
 def _fake_extract(cls):
-      print str(cls)
-      return True
+    print 'Extract : %s' % cls
+    return True
 
 XtmArchive._extract = _fake_extract
 DefaultArchive._extract = _fake_extract
 
 class EasyExtract(ArchiveFinder):
-      """User interface for extracting archives"""
+    """User interface for extracting archives"""
 
-      def __init__(self, path, recursive=False,
-                   force_extract=False, repair=True):
-          self.force_extract = force_extract
-          self.repair = repair
-          self.archives_classes = [DefaultArchive, XtmArchive,]
-          
-          super(EasyExtract, self).__init__(path, recursive,
-                                            self.archives_classes)
+    def __init__(self, path, recursive=False,
+                 force_extract=False, repair=True):
+        self.force_extract = force_extract
+        self.repair = repair
+        self.archives_classes = [DefaultArchive, XtmArchive,]
+        self.excludes = []
 
-          if self.can_extract(self.force_extract):
-              self.extract_archives(self.repair)
-          else:
-              print 'Nothing to do !'
-              
-      def get_path_archives(self, path, filenames, archive_classes):
-            print 'Scanning %s' % os.path.abspath(path)
-            archives = super(EasyExtract, self).get_path_archives(
-                  path, filenames, archive_classes)
-            if len(archives) == 1:
-                  print '  - 1 archive found'
-            elif len(archives) > 1:
-                  print '  - %i archives founds'
-            return archives
+        super(EasyExtract, self).__init__(path, recursive,
+                                          self.archives_classes)
 
-      def can_extract(self, force):
-            if self.archives:
-                  for archive in self.archives:
-                        print archive
-                  if force: return True
-                  extract = raw_input('Extract all ? [Y]/n ')
-                  return bool(not extract or 'y' in extract.lower())
-            return False
-              
-      def extract_archives(self, repair):
-          for archive in self.archives:
+        if self.can_extract(self.force_extract):
+            self.extract_archives(self.repair)
+        else:
+            print 'Nothing to do !'
+
+    def get_path_archives(self, path, filenames, archive_classes):
+        print 'Scanning %s' % os.path.abspath(path)
+        archives = super(EasyExtract, self).get_path_archives(
+              path, filenames, archive_classes)
+        if len(archives) == 1:
+            print '  - 1 archive found'
+        elif len(archives) > 1:
+            print '  - %i archives founds'
+        return archives
+
+    def can_extract(self, force):
+        if self.archives:
+            if force: return True
+            for archive in self.archives:
+                print archive
+
+            extract = raw_input('Extract all ? [Y]es / No / Select : ')
+            if not extract or 'y' in extract.lower():
+                return True
+            if 's' in extract.lower():
+                for archive in self.archives:
+                    extract = raw_input('Extract %s ? [Y]es / No : ' % archive)
+                    if extract and not 'y' in extract.lower():
+                        self.excludes.append(archive)
+                return bool(self.archives)
+        return False
+
+    def extract_archives(self, repair):
+        for archive in self.archives:
+            if archive not in self.excludes:
                 result = archive.extract(repair)
-                
-          
 
 if __name__ == '__main__':
     parser = OptionParser()
@@ -69,6 +77,6 @@ if __name__ == '__main__':
                       help='Find archives recursively', default=False)
 
     (options, args) = parser.parse_args()
-    
+
     EasyExtract(options.directory, options.recursive,
                 options.force_extract, options.repair)
