@@ -14,7 +14,11 @@ class BaseFileCollection(object):
         """Escape a filename"""
         return escape_filename(filename)
 
-    #def get_absolute_path(self, filename):
+    def get_path_filename(self, filename):
+        """Concatenate path and filename"""
+        return os.path.join(self.path, filename)
+    
+    #def get_absolute_path_filename(self, filename):
     #    return os.path.abspath(os.join(self.path, filename))
 
 class MedKit(BaseFileCollection):
@@ -29,17 +33,17 @@ class MedKit(BaseFileCollection):
 
     def find_medkits(self, filenames=[]):
         """Find files for building the medkit"""
-        if not filenames:
-            filenames = os.listdir(self.path)
-
         for filename in filenames:
-            if self.is_medkit_file(filename):
+            if self.is_medkit_file(filename) and not filename in self.medkits:
                 self.medkits.append(filename)
+        self.medkits.sort()
 
-    def check_and_repair(self):
+    def check_and_repair(self, silent=False):
         """Check and repair with medkits"""
         if self.medkits:
-            result = os.system('par2 r %s' % self.escape_filename(self.medkits[0]))
+            options = silent and '-qq' or ''            
+            root_medkit = self.escape_filename(self.get_path_filename(self.medkits[0]))
+            result = os.system('par2 r %s %s' % (options, root_medkit))
             return bool(not result)
         return False
 
@@ -58,12 +62,10 @@ class Archive(MedKit):
 
     def find_archives(self, filenames=[]):
         """Find files for building the archive"""
-        if not filenames:
-            filenames = os.listdir(self.path)
-
         for filename in filenames:
-            if self.is_archive_file(filename):
+            if self.is_archive_file(filename) and not filename in self.archives:
                 self.archives.append(filename)
+        self.archives.sort()
 
     def extract(self, check=False):
         """Extract the archive and do integrity checking"""
