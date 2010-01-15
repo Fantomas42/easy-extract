@@ -5,6 +5,7 @@ from easy_extract.utils import escape_filename
 
 class BaseFileCollection(object):
     """Base file collection"""
+
     def __init__(self, name, path='.', filenames=[]):
         self.name = name
         self.path = path
@@ -22,6 +23,8 @@ class BaseFileCollection(object):
     #    return os.path.abspath(os.join(self.path, filename))
 
 class MedKit(BaseFileCollection):
+    """MedKit is collection of par2 files"""
+
     def __init__(self, name, path='.', filenames=[]):
         super(MedKit, self).__init__(name, path, filenames)
         self.medkits = []
@@ -48,7 +51,7 @@ class MedKit(BaseFileCollection):
         return False
 
 class Archive(MedKit):
-    """Base class Archive"""
+    """Archive is a collection of archive files and a MedKit"""
 
     def __init__(self, name, path='.', filenames=[]):
         super(Archive, self).__init__(name, path, filenames)
