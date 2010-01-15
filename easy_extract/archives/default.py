@@ -3,8 +3,8 @@ from easy_extract.archive import Archive
 
 ALLOWED_EXTENSIONS = ['ARJ', 'CAB', 'CHM', 'CPIO',
                       'DMG', 'HFS', 'LZH', 'LZMA',
-                      'MSI', 'NSIS', 'RAR', 'UDF',
-                      'WIM', 'XAR' 'Z']
+                      'NSIS', 'RAR', 'UDF', 'WIM',
+                      'XAR', 'Z']
 
 class DefaultArchive(Archive):
     """The DefaultArchive use 7z"""
