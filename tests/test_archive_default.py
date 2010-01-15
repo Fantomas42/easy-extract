@@ -4,7 +4,7 @@ import unittest
 
 from easy_extract.utils import get_filename_name
 from easy_extract.archives.default import DefaultArchive
-
+from easy_extract.archive_finder import ArchiveFinder
 
 class DefaultArchiveTestCase(unittest.TestCase):
 
@@ -26,11 +26,12 @@ class DefaultArchiveTestCase(unittest.TestCase):
         self.assertTrue(DefaultArchive.is_archive_file('file.z'))
         self.assertTrue(DefaultArchive.is_archive_file('file.r01'))
         self.assertTrue(DefaultArchive.is_archive_file('file.R99'))
+        self.assertEquals(DefaultArchive.is_archive_file('file.R99'), 'file')
 
         self.assertFalse(DefaultArchive.is_archive_file('file'))
         self.assertFalse(DefaultArchive.is_archive_file('file.r'))
         self.assertFalse(DefaultArchive.is_archive_file('file.r100'))
-        
+
     def test__extract(self):
         pass
 
@@ -62,7 +63,7 @@ class DefaultArchiveTestCase(unittest.TestCase):
                      'bs-mbfs.abtt.vol000+01.par2',
                      'bs-mbfs.abtt.vol001+02.par2',
                      'bs-mbfs.nfo',]
-        
+
         archive = DefaultArchive(get_filename_name(filenames[0]), '.', filenames)
         self.assertEquals(archive.name, 'bs-mbfs')
         self.assertEquals(len(archive.archives), 6)
@@ -84,11 +85,21 @@ class DefaultArchiveTestCase(unittest.TestCase):
                      'tes-lvsf.cd2.r00',
                      'tes-lvsf.cd2.r01']
 
-        archive = DefaultArchive('tes-lvsf.cd1', '.', filenames)
+        af = ArchiveFinder()
+        result = af.get_path_archives('path', filenames)
+        self.assertEquals(result, [])
+        result = af.get_path_archives('path', filenames, [DefaultArchive,])
+        self.assertEquals(len(result), 2)
 
-        self.assertEquals(len(archive.archives), 5)
-        self.assertEquals(len(archive.medkits), 3)
-        
+        for archive in result:
+            self.assertTrue(archive.name.startswith('tes-lvsf'))
+            if archive.name == 'tes-lvsf.cd1':
+                self.assertEquals(len(archive.archives), 5)
+                self.assertEquals(len(archive.medkits), 3)
+            else:
+                self.assertEquals(len(archive.archives), 2)
+                self.assertEquals(len(archive.medkits), 1)
+
 
 suite = unittest.TestLoader().loadTestsFromTestCase(DefaultArchiveTestCase)
 

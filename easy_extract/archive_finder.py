@@ -20,17 +20,17 @@ class ArchiveFinder(object):
         """Check if the filename is associated to an
         archive class"""
         for archive_class in archive_classes:
-            if archive_class.is_archive_file(filename):
-                return archive_class
-        return False
+            archive_name = archive_class.is_archive_file(filename)
+            if archive_name:
+                return archive_name, archive_class
+        return False, False
 
     def get_path_archives(self, path, filenames=[], archive_classes=[]):
         """Build and return Archives list from a path"""
         archives = {}
             
         for filename in filenames:
-            archive_class = self.is_archive_file(filename, archive_classes)
-            name = get_filename_name(filename)
+            name, archive_class = self.is_archive_file(filename, archive_classes)
             
             if archive_class and not name in archives.keys():
                 archives[name] = archive_class(name, path, filenames)

@@ -23,7 +23,7 @@ class DefaultArchive(Archive):
         
         for ext in ALLOWED_EXTENSIONS:
             if filename.endswith('.%s' % ext.lower()):
-                return True
+                return filename.split('.%s' % ext.lower())[0]
         return False
 
     def _extract(self):

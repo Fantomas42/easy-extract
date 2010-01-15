@@ -13,7 +13,7 @@ class AllIsArchive(Archive):
 
     @classmethod
     def is_archive_file(self, filename):
-        return True
+        return filename.split('.')[0]
 
 class ArchiveFinderTestCase(unittest.TestCase):
 
@@ -50,8 +50,8 @@ class ArchiveFinderTestCase(unittest.TestCase):
     def test_is_archive_file(self):
         af = ArchiveFinder()
         
-        self.assertFalse(af.is_archive_file('toto.avi'))
-        self.assertEquals(af.is_archive_file('toto.avi', [AllIsArchive,]), AllIsArchive)
+        self.assertEquals(af.is_archive_file('toto.avi'), (False, False))
+        self.assertEquals(af.is_archive_file('toto.avi', [AllIsArchive,]), ('toto', AllIsArchive))
 
     def test_archives(self):
         af = ArchiveFinder()
