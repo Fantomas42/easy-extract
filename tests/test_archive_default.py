@@ -7,6 +7,7 @@ from easy_extract.archives.default import DefaultArchive
 class DefaultArchiveTestCase(unittest.TestCase):
 
     def test_is_archive_file(self):
+        self.assertFalse(DefaultArchive.is_archive_file('file'))
         self.assertTrue(DefaultArchive.is_archive_file('file.ARJ'))
         self.assertTrue(DefaultArchive.is_archive_file('file.arj'))
         self.assertTrue(DefaultArchive.is_archive_file('file.cab'))
