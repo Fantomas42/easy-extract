@@ -12,10 +12,10 @@ Very usefull when you grab on Usenet.
 Installation
 ------------
 
-Before you start using easy-extract, you must install these software :
+Before you start using easy-extract, you must install these softwares :
 
- * unrar-free
  * 7zip-full
+ * par2
 
 Then use easy_install
 
