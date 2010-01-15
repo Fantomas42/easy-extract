@@ -1,14 +1,27 @@
 """Xtm archive format"""
 from easy_extract.archive import Archive
 
+XTM_EXTENSIONS = []
+for i in range(1000):
+    if i < 10:
+        XTM_EXTENSIONS.append('.00%i.xtm' % i)
+    elif i < 100:
+        XTM_EXTENSIONS.append('.0%i.xtm' % i)
+    else:
+        XTM_EXTENSIONS.append('.%i.xtm' % i)
+XTM_EXTENSIONS.append('.xtm')
+
+
 class XtmArchive(Archive):
     """The XTM archive format"""
 
     @classmethod
     def is_archive_file(cls, filename):
         filename = filename.lower()
-        if filename.endswith('.xtm'):
-            return filename.split('.xtm')[0]
+
+        for ext in XTM_EXTENSIONS:
+            if filename.endswith(ext.lower()):
+                return filename.split(ext.lower())[0]
         return False
 
     def _extract(self):
