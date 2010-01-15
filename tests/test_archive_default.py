@@ -2,12 +2,13 @@
 import os
 import unittest
 
+from easy_extract.utils import get_filename_name
 from easy_extract.archives.default import DefaultArchive
+
 
 class DefaultArchiveTestCase(unittest.TestCase):
 
     def test_is_archive_file(self):
-        self.assertFalse(DefaultArchive.is_archive_file('file'))
         self.assertTrue(DefaultArchive.is_archive_file('file.ARJ'))
         self.assertTrue(DefaultArchive.is_archive_file('file.arj'))
         self.assertTrue(DefaultArchive.is_archive_file('file.cab'))
@@ -23,9 +24,71 @@ class DefaultArchiveTestCase(unittest.TestCase):
         self.assertTrue(DefaultArchive.is_archive_file('file.wim'))
         self.assertTrue(DefaultArchive.is_archive_file('file.xar'))
         self.assertTrue(DefaultArchive.is_archive_file('file.z'))
+        self.assertTrue(DefaultArchive.is_archive_file('file.r01'))
+        self.assertTrue(DefaultArchive.is_archive_file('file.R99'))
 
+        self.assertFalse(DefaultArchive.is_archive_file('file'))
+        self.assertFalse(DefaultArchive.is_archive_file('file.r'))
+        self.assertFalse(DefaultArchive.is_archive_file('file.r100'))
+        
     def test__extract(self):
         pass
+
+    def test_realcase_1(self):
+        filenames = ['fil.usenet4all.S81103.avi.part01.rar',
+                     'fil.usenet4all.S81103.avi.part01.rar.par2',
+                     'fil.usenet4all.S81103.avi.part01.rar.vol000+01.par2',
+                     'fil.usenet4all.S81103.avi.part01.rar.vol001+02.par2',
+                     'fil.usenet4all.S81103.avi.part01.rar.vol003+04.par2',
+                     'fil.usenet4all.S81103.avi.part01.rar.vol007+08.par2',
+                     'fil.usenet4all.S81103.avi.part02.rar',
+                     'fil.usenet4all.S81103.avi.part03.rar',
+                     'fil.usenet4all.S81103.avi.part04.rar',
+                     'fil.usenet4all.S81103.avi.part05.rar',
+                     'fil.usenet4all.S81103.avi.part06.rar',]
+        archive = DefaultArchive(get_filename_name(filenames[0]), '.', filenames)
+        self.assertEquals(archive.name, 'fil.usenet4all.S81103.avi')
+        self.assertEquals(len(archive.archives), 6)
+        self.assertEquals(len(archive.medkits), 5)
+
+    def test_realcase_2(self):
+        filenames = ['bs-mbfs.rar',
+                     'bs-mbfs.r00',
+                     'bs-mbfs.r01',
+                     'bs-mbfs.r02',
+                     'bs-mbfs.r03',
+                     'bs-mbfs.r04',
+                     'bs-mbfs.abtt.par2',
+                     'bs-mbfs.abtt.vol000+01.par2',
+                     'bs-mbfs.abtt.vol001+02.par2',
+                     'bs-mbfs.nfo',]
+        
+        archive = DefaultArchive(get_filename_name(filenames[0]), '.', filenames)
+        self.assertEquals(archive.name, 'bs-mbfs')
+        self.assertEquals(len(archive.archives), 6)
+        self.assertEquals(len(archive.medkits), 3)
+
+    def test_realcase_3(self):
+        filenames = ['tes-lvsf-sample.par2',
+                     'tes-lvsf-sample.vol00+1.par2',
+                     'tes-lvsf-sample.vol01+2.par2',
+                     'tes-lvsf.cd1.par2',
+                     'tes-lvsf.cd1.rar',
+                     'tes-lvsf.cd1.r00',
+                     'tes-lvsf.cd1.r01',
+                     'tes-lvsf.cd1.r02',
+                     'tes-lvsf.cd1.r03',
+                     'tes-lvsf.cd1.vol00+1.par2',
+                     'tes-lvsf.cd1.vol01+2.par2',
+                     'tes-lvsf.cd2.par2',
+                     'tes-lvsf.cd2.r00',
+                     'tes-lvsf.cd2.r01']
+
+        archive = DefaultArchive('tes-lvsf.cd1', '.', filenames)
+
+        self.assertEquals(len(archive.archives), 5)
+        self.assertEquals(len(archive.medkits), 3)
+        
 
 suite = unittest.TestLoader().loadTestsFromTestCase(DefaultArchiveTestCase)
 

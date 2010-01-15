@@ -118,6 +118,25 @@ class ArchiveTestCase(unittest.TestCase):
     def test_is_archive_file(self):
         self.assertFalse(Archive.is_archive_file('file'))
 
+    def test_find_archives(self):
+        filenames = ['%s.rar' % self.default_name,
+                     '%s.zip' % self.default_name,
+                     'bla.rar']
+        a = Archive(self.default_name, './tests')
+        self.assertEquals(a.archives, [])
+        a.find_archives(filenames)
+        self.assertEquals(a.archives, [])
+        original_is_archive_file = a.is_archive_file
+
+        def always_archive_file(filename):
+            return True
+
+        a.is_archive_file = always_archive_file
+        a.find_archives(filenames)
+        self.assertEquals(len(a.archives), 2)
+
+        a.is_archive_file = original_is_archive_file
+
     def test_extract(self):
         original_extract = Archive._extract
         

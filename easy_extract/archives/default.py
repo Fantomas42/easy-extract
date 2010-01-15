@@ -5,6 +5,14 @@ ALLOWED_EXTENSIONS = ['ARJ', 'CAB', 'CHM', 'CPIO',
                       'DMG', 'HFS', 'LZH', 'LZMA',
                       'NSIS', 'RAR', 'UDF', 'WIM',
                       'XAR', 'Z']
+RAR_SUITE = []
+for i in range(100):
+    if i < 10:
+        RAR_SUITE.append('r0%i' % i)
+    else:
+        RAR_SUITE.append('r%i' % i)
+
+ALLOWED_EXTENSIONS.extend(RAR_SUITE)
 
 class DefaultArchive(Archive):
     """The DefaultArchive use 7z"""

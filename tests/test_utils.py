@@ -10,6 +10,8 @@ class UtilsTestCase(unittest.TestCase):
         self.assertEquals(get_filename_name('toto'), 'toto')
         self.assertEquals(get_filename_name('toto.titi'), 'toto')
         self.assertEquals(get_filename_name('toto.titi.tata'), 'toto')
+        self.assertEquals(get_filename_name('toto.titi.tata.tutu'), 'toto.titi')
+        self.assertEquals(get_filename_name('toto.titi.tata.tutu.tete'), 'toto.titi.tata')
 
     def test_escape_filename(self):
         self.assertEquals(escape_filename('"Coding is *Beautiful* & (Sexy)"'),

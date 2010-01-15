@@ -66,7 +66,8 @@ class Archive(MedKit):
     def find_archives(self, filenames=[]):
         """Find files for building the archive"""
         for filename in filenames:
-            if self.is_archive_file(filename) and not filename in self.archives:
+            if filename.startswith(self.name) and self.is_archive_file(filename) \
+                   and not filename in self.archives:
                 self.archives.append(filename)
         self.archives.sort()
 

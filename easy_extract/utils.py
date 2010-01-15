@@ -1,8 +1,12 @@
 """Utils for easy_extract"""
+
 CHAR_TO_ESCAPE = (' ', '(', ')', '*', "'", '"', '&')
 
 def get_filename_name(filename):
-    return filename.split('.')[0]
+    names = filename.split('.')
+    if len(names) > 3:
+        return '.'.join(names[:-2])
+    return names[0]
 
 def escape_filename(filename):
     for char in CHAR_TO_ESCAPE:
