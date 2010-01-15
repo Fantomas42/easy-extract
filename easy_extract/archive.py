@@ -18,6 +18,10 @@ class BaseFileCollection(object):
     def get_path_filename(self, filename):
         """Concatenate path and filename"""
         return os.path.join(self.path, filename)
+
+    def get_command_filename(self, filename):
+        """Convert filename for command line"""
+        return self.escape_filename(self.get_path_filename(filename))
     
     #def get_absolute_path_filename(self, filename):
     #    return os.path.abspath(os.join(self.path, filename))
@@ -45,7 +49,7 @@ class MedKit(BaseFileCollection):
         """Check and repair with medkits"""
         if self.medkits:
             options = silent and '-qq' or ''            
-            root_medkit = self.escape_filename(self.get_path_filename(self.medkits[0]))
+            root_medkit = self.get_command_filename(self.medkits[0])
             result = os.system('par2 r %s %s' % (options, root_medkit))
             return bool(not result)
         return False

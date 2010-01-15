@@ -36,6 +36,11 @@ class BaseFileCollectionTestCase(unittest.TestCase):
         bfc.path = './tests'
         self.assertEquals(bfc.get_path_filename(bfc.filenames[0]), './tests/file1.ext')
 
+    def test_get_command_filename(self):
+        bfc = BaseFileCollection(self.default_name, './my path/*to file*')
+        self.assertEquals(bfc.get_command_filename('file 1.txt'),
+                          './my\\ path/\\*to\\ file\\*/file\\ 1.txt')
+
 class MedKitTestCase(unittest.TestCase):
 
     default_name = 'archive_name'
