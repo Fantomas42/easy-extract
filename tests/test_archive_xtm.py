@@ -16,7 +16,7 @@ class XtmArchiveTestCase(unittest.TestCase):
         self.assertEquals(XtmArchive.is_archive_file('file.001.xtm'), 'file')
         self.assertEquals(XtmArchive.is_archive_file('file.011.xtm'), 'file')
         self.assertEquals(XtmArchive.is_archive_file('file.111.xtm'), 'file')
-        self.assertEquals(XtmArchive.is_archive_file('file.avi.111.xtm'), 'file.avi')
+        self.assertEquals(XtmArchive.is_archive_file('File.avi.111.xtm'), 'File.avi')
         self.assertFalse(XtmArchive.is_archive_file('file.011.xt'))
 
     def test__extract(self):
