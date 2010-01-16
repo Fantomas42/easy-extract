@@ -20,7 +20,18 @@ class XtmArchiveTestCase(unittest.TestCase):
         self.assertFalse(XtmArchive.is_archive_file('file.011.xt'))
 
     def test__extract(self):
-        pass
+        filenames = ['archive.001.xtm',
+                     'archive.002.xtm',
+                     'archive.003.xtm',]
+        archive = XtmArchive('archive', '.', filenames)
+        def toto(cmd):
+            print cmd
+        
+        original = os.system
+        os.system = toto
+        archive._extract()
+
+        os.system = original
 
 suite = unittest.TestLoader().loadTestsFromTestCase(XtmArchiveTestCase)
 

@@ -5,7 +5,6 @@ import unittest
 from easy_extract.archive import MedKit
 from easy_extract.archive import Archive
 from easy_extract.archive import BaseFileCollection
-from easy_extract.utils import escape_filename
 
 class BaseFileCollectionTestCase(unittest.TestCase):
 
@@ -24,10 +23,8 @@ class BaseFileCollectionTestCase(unittest.TestCase):
 
     def test_escape_filename(self):
         bfc = BaseFileCollection(self.default_name, '.')
-        string_to_escape = 'File Archive "3".ext'
-
-        self.assertEquals(bfc.escape_filename(string_to_escape),
-                          escape_filename(string_to_escape))
+        self.assertEquals(bfc.escape_filename('"Coding is *Beautiful* & (Sexy)"'),
+                          '\\"Coding\\ is\\ \\*Beautiful\\*\\ \\&\\ \\(Sexy\\)\\"')
 
     def test_get_path_filename(self):
         bfc = BaseFileCollection(self.default_name, '.', ['file1.ext', 'file2.ext'])
@@ -122,6 +119,12 @@ class ArchiveTestCase(unittest.TestCase):
 
     def test_is_archive_file(self):
         self.assertFalse(Archive.is_archive_file('file'))
+
+        Archive.ALLOWED_EXTENSIONS = ['.ext',]
+        self.assertFalse(Archive.is_archive_file('file'))
+        self.assertEquals(Archive.is_archive_file('file.ext'), 'file')
+        self.assertEquals(Archive.is_archive_file('file.eXt'), 'file')
+        self.assertEquals(Archive.is_archive_file('File.Ext'), 'File')
 
     def test_find_archives(self):
         filenames = ['%s.rar' % self.default_name,

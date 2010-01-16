@@ -1,7 +1,8 @@
 """Archive collection modules"""
 import os
+import re
 
-from easy_extract.utils import escape_filename
+CHAR_TO_ESCAPE = (' ', '(', ')', '*', "'", '"', '&')
 
 class BaseFileCollection(object):
     """Base file collection"""
@@ -13,7 +14,9 @@ class BaseFileCollection(object):
         
     def escape_filename(self, filename):
         """Escape a filename"""
-        return escape_filename(filename)
+        for char in CHAR_TO_ESCAPE:
+            filename = filename.replace(char, '\%s' % char)
+        return filename
 
     def get_path_filename(self, filename):
         """Concatenate path and filename"""
@@ -56,6 +59,7 @@ class MedKit(BaseFileCollection):
 
 class Archive(MedKit):
     """Archive is a collection of archive files and a MedKit"""
+    ALLOWED_EXTENSIONS = []
 
     def __init__(self, name, path='.', filenames=[]):
         super(Archive, self).__init__(name, path, filenames)
@@ -64,7 +68,11 @@ class Archive(MedKit):
 
     @classmethod
     def is_archive_file(cls, filename):
-        """Check if the filename is allowed in this Archive"""
+        """Check if the filename is allowed for the Archive"""
+        for ext in cls.ALLOWED_EXTENSIONS:
+            regext = re.compile('%s$' % ext, re.I)
+            if regext.search(filename):
+                return regext.split(filename)[0]
         return False
 
     def find_archives(self, filenames=[]):

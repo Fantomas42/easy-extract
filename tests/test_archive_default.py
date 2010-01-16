@@ -2,9 +2,9 @@
 import os
 import unittest
 
-from easy_extract.utils import get_filename_name
 from easy_extract.archives.default import DefaultArchive
 from easy_extract.archive_finder import ArchiveFinder
+
 
 class DefaultArchiveTestCase(unittest.TestCase):
 
@@ -50,10 +50,15 @@ class DefaultArchiveTestCase(unittest.TestCase):
                      'fil.usenet4all.S81103.avi.part04.rar',
                      'fil.usenet4all.S81103.avi.part05.rar',
                      'fil.usenet4all.S81103.avi.part06.rar',]
-        archive = DefaultArchive(get_filename_name(filenames[0]), '.', filenames)
-        self.assertEquals(archive.name, 'fil.usenet4all.S81103.avi')
-        self.assertEquals(len(archive.archives), 6)
-        self.assertEquals(len(archive.medkits), 5)
+
+        af = ArchiveFinder()
+        result = af.get_path_archives('path', filenames)
+        self.assertEquals(result, [])
+        result = af.get_path_archives('path', filenames, [DefaultArchive,])
+        self.assertEquals(len(result), 1)
+        self.assertEquals(result[0].name, 'fil.usenet4all.S81103.avi')
+        self.assertEquals(len(result[0].archives), 6)
+        self.assertEquals(len(result[0].medkits), 5)
 
     def test_realcase_2(self):
         filenames = ['bs-mbfs.rar',
@@ -67,10 +72,14 @@ class DefaultArchiveTestCase(unittest.TestCase):
                      'bs-mbfs.abtt.vol001+02.par2',
                      'bs-mbfs.nfo',]
 
-        archive = DefaultArchive(get_filename_name(filenames[0]), '.', filenames)
-        self.assertEquals(archive.name, 'bs-mbfs')
-        self.assertEquals(len(archive.archives), 6)
-        self.assertEquals(len(archive.medkits), 3)
+        af = ArchiveFinder()
+        result = af.get_path_archives('path', filenames)
+        self.assertEquals(result, [])
+        result = af.get_path_archives('path', filenames, [DefaultArchive,])
+        self.assertEquals(len(result), 1)
+        self.assertEquals(result[0].name, 'bs-mbfs')        
+        self.assertEquals(len(result[0].archives), 6)
+        self.assertEquals(len(result[0].medkits), 3)
 
     def test_realcase_3(self):
         filenames = ['tes-lvsf-sample.par2',

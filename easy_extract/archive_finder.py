@@ -1,8 +1,6 @@
 """Find and build the archives"""
 import os
 
-from easy_extract.archive import Archive
-from easy_extract.utils import get_filename_name
 
 class ArchiveFinder(object):
     """Find and build the archives contained in path"""
