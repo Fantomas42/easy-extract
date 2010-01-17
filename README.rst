@@ -14,6 +14,7 @@ Installation
 
 Before you start using easy-extract, you must install these softwares :
 
+ * unrar-free
  * 7zip-full
  * par2
 

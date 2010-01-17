@@ -13,6 +13,6 @@ class SevenZipArchive(Archive):
     ALLOWED_EXTENSIONS = EXTENSIONS
     
     def _extract(self):
-        first_archive = self.escape_filename(self.archives[0])
-        os.system('7z e %s' % first_archive)
+        first_archive = self.get_command_filename(self.archives[0])
+        return not os.system('7z e %s' % first_archive)
     

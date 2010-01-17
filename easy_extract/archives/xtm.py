@@ -27,4 +27,5 @@ class XtmArchive(Archive):
             archive = self.get_command_filename(archive)
             os.system('cat %s >> %s' % (archive, new_filename))
 
+        return True
         # Need to return value

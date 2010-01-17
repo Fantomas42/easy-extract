@@ -122,6 +122,7 @@ class ArchiveTestCase(unittest.TestCase):
 
         Archive.ALLOWED_EXTENSIONS = ['.ext',]
         self.assertFalse(Archive.is_archive_file('file'))
+        self.assertFalse(Archive.is_archive_file('file.ext1'))
         self.assertEquals(Archive.is_archive_file('file.ext'), 'file')
         self.assertEquals(Archive.is_archive_file('file.eXt'), 'file')
         self.assertEquals(Archive.is_archive_file('File.Ext'), 'File')

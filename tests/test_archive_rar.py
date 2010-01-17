@@ -12,7 +12,7 @@ class RarArchiveTestCase(unittest.TestCase):
         self.assertTrue(RarArchive.is_archive_file('file.rar'))
         self.assertTrue(RarArchive.is_archive_file('file.r01'))
         self.assertTrue(RarArchive.is_archive_file('file.R99'))
-        self.assertEquals(RarArchive.is_archive_file('file.R99'), 'file')
+        self.assertTrue(RarArchive.is_archive_file('file.part42.rar'))
 
         self.assertFalse(RarArchive.is_archive_file('file'))
         self.assertFalse(RarArchive.is_archive_file('file.r'))
