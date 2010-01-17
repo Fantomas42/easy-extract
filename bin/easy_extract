@@ -2,8 +2,10 @@
 import sys, os
 from optparse import OptionParser
 
+from easy_extract import VERSION
 from easy_extract.archives.xtm import XtmArchive
-from easy_extract.archives.default import DefaultArchive
+from easy_extract.archives.rar import RarArchive
+from easy_extract.archives.seven_zip import SevenZipArchive
 from easy_extract.archive_finder import ArchiveFinder
 
 # Patch for disabling extractions
@@ -11,8 +13,9 @@ def _fake_extract(cls):
     print 'Extract : %s' % cls
     return True
 
-XtmArchive._extract = _fake_extract
-DefaultArchive._extract = _fake_extract
+#XtmArchive._extract = _fake_extract
+#RarArchive._extract = _fake_extract
+#SevenZipArchive._extract = _fake_extract
 
 class EasyExtract(ArchiveFinder):
     """User interface for extracting archives"""
@@ -21,7 +24,7 @@ class EasyExtract(ArchiveFinder):
                  force_extract=False, repair=True):
         self.force_extract = force_extract
         self.repair = repair
-        self.archives_classes = [DefaultArchive, XtmArchive,]
+        self.archives_classes = [RarArchive, SevenZipArchive, XtmArchive,]
         self.excludes = []
 
         super(EasyExtract, self).__init__(path, recursive,
@@ -33,13 +36,9 @@ class EasyExtract(ArchiveFinder):
             print 'Nothing to do !'
 
     def get_path_archives(self, path, filenames, archive_classes):
-        print 'Scanning %s' % os.path.abspath(path)
+        print 'Scanning %s...' % os.path.abspath(path)
         archives = super(EasyExtract, self).get_path_archives(
               path, filenames, archive_classes)
-        if len(archives) == 1:
-            print '  - 1 archive found'
-        elif len(archives) > 1:
-            print '  - %i archives founds'
         return archives
 
     def can_extract(self, force):
@@ -78,5 +77,6 @@ if __name__ == '__main__':
 
     (options, args) = parser.parse_args()
 
+    print '--** Easy Extract v%s **--' % VERSION
     EasyExtract(options.directory, options.recursive,
                 options.force_extract, options.repair)
