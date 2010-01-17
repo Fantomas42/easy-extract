@@ -1,5 +1,5 @@
 """Default archive format"""
-import re
+import os
 
 from easy_extract.archive import Archive
 
@@ -26,5 +26,5 @@ class DefaultArchive(Archive):
     
     def _extract(self):
         first_archive = self.escape_filename(self.archives[0])
-        os.system('7z %s' % first_archive)
+        os.system('7z e %s' % first_archive)
     
