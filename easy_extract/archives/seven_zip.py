@@ -9,7 +9,7 @@ EXTENSIONS = ['.ARJ', '.CAB', '.CHM', '.CPIO',
               '.Z', '.ZIP', '.GZIP', '.TAR',]
 
 class SevenZipArchive(Archive):
-    """The DefaultArchive use 7z"""
+    """The 7z unarchiver is used for many formats"""
     ALLOWED_EXTENSIONS = EXTENSIONS
     
     def _extract(self):
