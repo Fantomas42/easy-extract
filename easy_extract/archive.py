@@ -66,6 +66,10 @@ class Archive(MedKit):
         self.archives = []
         self.find_archives(self.filenames)
 
+    @property
+    def files(self):
+        return self.archives + self.medkits
+
     @classmethod
     def is_archive_file(cls, filename):
         """Check if the filename is allowed for the Archive"""

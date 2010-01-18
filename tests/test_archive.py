@@ -118,6 +118,12 @@ class ArchiveTestCase(unittest.TestCase):
         self.assertEquals(len(a.medkits), 3)
         self.assertEquals(len(a.archives), 0)
 
+    def test_files(self):
+        a = Archive(self.default_name)
+        a.medkits = ['toto', 'titi']
+        a.archives = ['tata', 'tutu']
+        self.assertEquals(len(a.files), 4)
+
     def test_is_archive_file(self):
         self.assertFalse(Archive.is_archive_file('file'))
 
