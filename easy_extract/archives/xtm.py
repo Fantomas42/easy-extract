@@ -4,17 +4,8 @@ import re
 
 from easy_extract.archive import Archive
 
-RAW_EXTENSIONS = []
-for i in range(1000):
-    if i < 10:
-        RAW_EXTENSIONS.append('.00%i.xtm' % i)
-    elif i < 100:
-        RAW_EXTENSIONS.append('.0%i.xtm' % i)
-    else:
-        RAW_EXTENSIONS.append('.%i.xtm' % i)
-RAW_EXTENSIONS.append('.xtm')
-
-EXTENSIONS = [re.compile('%s$' % ext, re.I) for ext in RAW_EXTENSIONS]
+EXTENSIONS = [re.compile('.\d{3}.xtm$', re.I),
+              re.compile('.xtm$', re.I)]
 
 class XtmArchive(Archive):
     """The XTM archive format"""

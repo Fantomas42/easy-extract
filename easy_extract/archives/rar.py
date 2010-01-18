@@ -4,18 +4,9 @@ import re
 
 from easy_extract.archive import Archive
 
-RAW_EXTENSIONS = []
-for i in range(100):
-    if i < 10:
-        RAW_EXTENSIONS.append('.r0%i' % i)
-        RAW_EXTENSIONS.append('.part0%i.rar' % i)
-    else:
-        RAW_EXTENSIONS.append('.r%i' % i)
-        RAW_EXTENSIONS.append('.part%i.rar' % i)
-RAW_EXTENSIONS.append('.rar')
-
-EXTENSIONS = [re.compile('%s$' % ext, re.I) for ext in RAW_EXTENSIONS]
-
+EXTENSIONS = [re.compile('.r\d{2}$', re.I),
+              re.compile('.part\d{2}.rar$', re.I),
+              re.compile('.rar$', re.I)]
 
 class RarArchive(Archive):
     """The Rar format Archive"""
