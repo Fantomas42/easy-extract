@@ -28,6 +28,7 @@ class SevenZipArchiveTestCase(unittest.TestCase):
         self.assertTrue(SevenZipArchive.is_archive_file('file.zip'))
 
         self.assertFalse(SevenZipArchive.is_archive_file('file'))
+        self.assertFalse(SevenZipArchive.is_archive_file('file.zip.ext'))
         self.assertFalse(SevenZipArchive.is_archive_file('file.r'))
         self.assertFalse(SevenZipArchive.is_archive_file('file.r100'))
 

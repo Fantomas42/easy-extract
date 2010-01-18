@@ -17,6 +17,7 @@ class XtmArchiveTestCase(unittest.TestCase):
         self.assertFalse(XtmArchive.is_archive_file('file.xt'))
         self.assertFalse(XtmArchive.is_archive_file('file.011.xt'))
         self.assertFalse(XtmArchive.is_archive_file('file.rar'))
+        self.assertFalse(XtmArchive.is_archive_file('file.xtm.ext'))
 
     def test__extract(self):
         system_commands = []

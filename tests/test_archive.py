@@ -1,5 +1,6 @@
 """Unit tests for Archive object"""
 import os
+import re
 import unittest
 
 from easy_extract.archive import MedKit
@@ -120,7 +121,7 @@ class ArchiveTestCase(unittest.TestCase):
     def test_is_archive_file(self):
         self.assertFalse(Archive.is_archive_file('file'))
 
-        Archive.ALLOWED_EXTENSIONS = ['.ext',]
+        Archive.ALLOWED_EXTENSIONS = [re.compile('.ext$', re.I),]
         self.assertFalse(Archive.is_archive_file('file'))
         self.assertFalse(Archive.is_archive_file('file.ext1'))
         self.assertEquals(Archive.is_archive_file('file.ext'), 'file')

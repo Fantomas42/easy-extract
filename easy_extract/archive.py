@@ -69,8 +69,7 @@ class Archive(MedKit):
     @classmethod
     def is_archive_file(cls, filename):
         """Check if the filename is allowed for the Archive"""
-        for ext in cls.ALLOWED_EXTENSIONS:
-            regext = re.compile('%s$' % ext, re.I)
+        for regext in cls.ALLOWED_EXTENSIONS:
             if regext.search(filename):
                 return regext.split(filename)[0]
         return False

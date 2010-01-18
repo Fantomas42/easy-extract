@@ -17,6 +17,7 @@ class RarArchiveTestCase(unittest.TestCase):
         self.assertFalse(RarArchive.is_archive_file('file'))
         self.assertFalse(RarArchive.is_archive_file('file.r'))
         self.assertFalse(RarArchive.is_archive_file('file.r100'))
+        self.assertFalse(RarArchive.is_archive_file('file.rar.ext'))
 
     def test__extract(self):
         pass
