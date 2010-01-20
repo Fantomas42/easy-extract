@@ -25,8 +25,8 @@ setup(
     keywords='extract, rar, zip, xtm',
     classifiers=[
         'Development Status :: 4 - Beta',
-        'Intended Audience :: End Users/Desktop'
-        'Operating System :: OS Independent',
+        'Intended Audience :: System Administrators',
+        'Operating System :: POSIX :: Linux',
         'Programming Language :: Python',
         'Topic :: Utilities',
         ],
