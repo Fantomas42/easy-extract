@@ -1,3 +1,3 @@
 """easy_extract module"""
 
-VERSION = '0.1.dev'
+VERSION = '0.1.b'

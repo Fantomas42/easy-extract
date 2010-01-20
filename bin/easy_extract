@@ -8,15 +8,6 @@ from easy_extract.archives.rar import RarArchive
 from easy_extract.archives.seven_zip import SevenZipArchive
 from easy_extract.archive_finder import ArchiveFinder
 
-# Patch for disabling extractions
-def _fake_extract(cls):
-    print 'Extract : %s' % cls
-    return True
-
-#XtmArchive._extract = _fake_extract
-#RarArchive._extract = _fake_extract
-#SevenZipArchive._extract = _fake_extract
-
 class EasyExtract(ArchiveFinder):
     """User interface for extracting archives"""
 
@@ -24,11 +15,10 @@ class EasyExtract(ArchiveFinder):
                  force_extract=False, repair=True):
         self.force_extract = force_extract
         self.repair = repair
-        self.archives_classes = [RarArchive, SevenZipArchive, XtmArchive,]
         self.excludes = []
 
         super(EasyExtract, self).__init__(path, recursive,
-                                          self.archives_classes)
+                                          [RarArchive, SevenZipArchive, XtmArchive,])
 
         if self.can_extract(self.force_extract):
             self.extract_archives(self.repair)
