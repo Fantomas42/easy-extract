@@ -20,21 +20,28 @@ class ArchiveFinderTestCase(unittest.TestCase):
     def test_init(self):
         af = ArchiveFinder()
 
-        self.assertEquals(af.root_path, '.')
+        self.assertEquals(af.paths, ['.'])
         self.assertEquals(af.recursive, True)
         self.assertEquals(af.archive_classes, [])
 
         af = ArchiveFinder(TEST_DIRPATH, False, [AllIsArchive,])
 
-        self.assertEquals(af.root_path, TEST_DIRPATH)
+        self.assertEquals(af.paths, [TEST_DIRPATH])
         self.assertEquals(af.recursive, False)
         self.assertEquals(af.archive_classes, [AllIsArchive,])
 
-    def test_find_archives_recursivity(self):
+    def test_multi_path(self):
+        af = ArchiveFinder(TEST_DIRPATH)
+        self.assertEquals(af.paths, [TEST_DIRPATH])
+        af = ArchiveFinder(['.', TEST_DIRPATH])
+        self.assertEquals(af.paths, ['.', TEST_DIRPATH])
+
+    def test_find_archives(self):
         af = ArchiveFinder()
         
-        self.assertEquals(len(af.find_archives(TEST_DIRPATH, False)), 1)
-        self.assertNotEquals(len(af.find_archives(TEST_DIRPATH, True)), 1)
+        self.assertEquals(len(af.find_archives([TEST_DIRPATH], False)), 1)
+        self.assertNotEquals(len(af.find_archives([TEST_DIRPATH], True)), 1)
+        self.assertEquals(len(af.find_archives(['.', TEST_DIRPATH], False)), 2)
 
     def test_get_path_archives(self):
         af = ArchiveFinder()

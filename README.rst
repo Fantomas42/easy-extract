@@ -25,7 +25,7 @@ Then use easy_install
 Usage
 -----
 
-Usage: easy_extract [options] [directory]
+Usage: easy_extract [options] [directory]...
 
 Options:
   --version         show program's version number and exit
@@ -46,14 +46,14 @@ All the archives found will be prompted, then confirm the extraction.
 Go make a coffee, the script will do the rest !
 Easy_extract will handle the repair if the archives are corrupted.
 
-The code
---------
+Code
+----
 
 If you want to reuse the code to find archives you can do something like that :
 
   >>> from easy_extract.archive_finder import ArchiveFinder
   >>> from easy_extract.archives.rar import RarArchive
   >>>
-  >>> archive_finder = ArchiveFinder('./my_path/', recursive=True, [RarArchive,])
+  >>> archive_finder = ArchiveFinder('./my_path/', recursive=True, archive_classes=[RarArchive,])
   >>> archive_finder.archives
   ... [<easy_extract.archives.rar.RarArchive object at 0x...>, <easy_extract.archives.rar.RarArchive object at 0x...>]

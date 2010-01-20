@@ -5,12 +5,14 @@ import os
 class ArchiveFinder(object):
     """Find and build the archives contained in path"""
 
-    def __init__(self, path='.', recursive=True, archive_classes=[]):
-        self.root_path = path
+    def __init__(self, paths=['.'], recursive=True, archive_classes=[]):
+        if isinstance(paths, basestring):
+            paths = [paths]
+        self.paths = paths
         self.recursive = recursive
         self.archive_classes = archive_classes
         
-        self.path_archives_found = self.find_archives(self.root_path,
+        self.path_archives_found = self.find_archives(self.paths,
                                                       self.recursive,
                                                       self.archive_classes)
 
@@ -35,15 +37,16 @@ class ArchiveFinder(object):
 
         return archives.values()
 
-    def find_archives(self, path, recursive, archive_classes=[]):
-        """Walk to the root_path finding archives"""
+    def find_archives(self, paths, recursive, archive_classes=[]):
+        """Walk to the paths finding archives"""
         path_archives = {}
 
-        for (dirpath, dirnames, filenames) in os.walk(path):
-            path_archives[dirpath] = self.get_path_archives(dirpath, filenames,
-                                                            archive_classes)
-            if not recursive:
-                break
+        for path in paths:
+            for (dirpath, dirnames, filenames) in os.walk(path):
+                path_archives[dirpath] = self.get_path_archives(dirpath, filenames,
+                                                                archive_classes)
+                if not recursive:
+                    break
                 
         return path_archives
 
