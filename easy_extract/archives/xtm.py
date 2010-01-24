@@ -12,7 +12,8 @@ class XtmArchive(Archive):
     ALLOWED_EXTENSIONS = EXTENSIONS
 
     def _extract(self):
-        new_filename = self.get_command_filename(self.name)
+        new_filename = self.escape_filename(self.name)
+        # new_filename = self.get_command_filename(self.name)
         first_archive = self.get_command_filename(self.archives[0])
         
         os.system('dd if=%s skip=1 ibs=104 status=noxfer > %s 2>/dev/null' % \
@@ -23,4 +24,4 @@ class XtmArchive(Archive):
             os.system('cat %s >> %s' % (archive, new_filename))
 
         return True
-        # Need to return value
+

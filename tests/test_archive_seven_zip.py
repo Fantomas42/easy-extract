@@ -33,7 +33,17 @@ class SevenZipArchiveTestCase(unittest.TestCase):
         self.assertFalse(SevenZipArchive.is_archive_file('file.r100'))
 
     def test__extract(self):
-        pass
+        system_commands = []
+        def fake_system(cmd):
+            system_commands.append(cmd)
+        original_system = os.system
+        os.system = fake_system
+        
+        filenames = ['archive.zip',]
+        archive = SevenZipArchive('archive', './path', filenames)
+        self.assertTrue(archive._extract())
+        self.assertEquals(system_commands, ['7z e ./path/archive.zip'])
+        os.system = original_system
 
 
 suite = unittest.TestLoader().loadTestsFromTestCase(SevenZipArchiveTestCase)

@@ -10,6 +10,7 @@ class RarArchiveTestCase(unittest.TestCase):
 
     def test_is_archive_file(self):
         self.assertTrue(RarArchive.is_archive_file('file.rar'))
+        self.assertTrue(RarArchive.is_archive_file('file.r00'))
         self.assertTrue(RarArchive.is_archive_file('file.r01'))
         self.assertTrue(RarArchive.is_archive_file('file.R99'))
         self.assertTrue(RarArchive.is_archive_file('file.part42.rar'))
@@ -20,7 +21,20 @@ class RarArchiveTestCase(unittest.TestCase):
         self.assertFalse(RarArchive.is_archive_file('file.rar.ext'))
 
     def test__extract(self):
-        pass
+        system_commands = []
+        def fake_system(cmd):
+            system_commands.append(cmd)
+        original_system = os.system
+        os.system = fake_system
+        
+        filenames = ['archive.rar',
+                     'archive.r00',
+                     'archive.r01',
+                     'archive.r02',]
+        archive = RarArchive('archive', './path', filenames)
+        self.assertTrue(archive._extract())
+        self.assertEquals(system_commands, ['unrar e ./path/archive.rar'])
+        os.system = original_system
 
     def test_realcase_1(self):
         filenames = ['fil.usenet4all.S81103.avi.part01.rar',
