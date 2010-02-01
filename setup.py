@@ -22,7 +22,7 @@ setup(
     platforms = 'any',
     description='Easy extraction of archives collections',
     long_description=open(os.path.join('README.rst')).read(),
-    keywords='extract, rar, zip, xtm',
+    keywords='extract, rar, zip, xtm, hjsplit',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: System Administrators',

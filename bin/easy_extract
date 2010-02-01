@@ -5,6 +5,7 @@ from optparse import OptionParser
 from easy_extract import VERSION
 from easy_extract.archives.xtm import XtmArchive
 from easy_extract.archives.rar import RarArchive
+from easy_extract.archives.hj_split import HJSplitArchive
 from easy_extract.archives.seven_zip import SevenZipArchive
 from easy_extract.archive_finder import ArchiveFinder
 
@@ -18,7 +19,8 @@ class EasyExtract(ArchiveFinder):
         self.excludes = []
 
         super(EasyExtract, self).__init__(paths, recursive,
-                                          [RarArchive, SevenZipArchive, XtmArchive,])
+                                          [RarArchive, SevenZipArchive,
+                                           XtmArchive, HJSplitArchive,])
 
         if self.can_extract(self.force_extract):
             self.extract_archives(self.repair)
