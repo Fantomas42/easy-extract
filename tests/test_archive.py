@@ -22,6 +22,12 @@ class BaseFileCollectionTestCase(unittest.TestCase):
         self.assertEquals(bfc.name, self.default_name)
         self.assertEquals(bfc.filenames, ['filename',])
 
+    def test_files(self):
+        bfc = BaseFileCollection(self.default_name)
+        self.assertEquals(len(bfc.files), 0)
+        bfc.filenames = ['toto', 'titi']
+        self.assertEquals(len(bfc.files), 2)
+
     def test_escape_filename(self):
         bfc = BaseFileCollection(self.default_name, '.')
         self.assertEquals(bfc.escape_filename('"Coding is *Beautiful* & (Sexy)"'),
@@ -59,6 +65,12 @@ class MedKitTestCase(unittest.TestCase):
         self.assertEquals(mk.name, self.default_name)
         self.assertEquals(len(mk.filenames), 4)
         self.assertEquals(len(mk.medkits), 3)
+
+    def test_files(self):
+        mk = MedKit(self.default_name)
+        self.assertEquals(len(mk.files), 0)
+        mk.medkits = ['toto', 'titi']
+        self.assertEquals(len(mk.files), 2)
 
     def test_is_medkit_file(self):
         mk = MedKit(self.default_name)
@@ -120,6 +132,7 @@ class ArchiveTestCase(unittest.TestCase):
 
     def test_files(self):
         a = Archive(self.default_name)
+        self.assertEquals(len(a.files), 0)
         a.medkits = ['toto', 'titi']
         a.archives = ['tata', 'tutu']
         self.assertEquals(len(a.files), 4)
@@ -155,7 +168,7 @@ class ArchiveTestCase(unittest.TestCase):
 
     def test_extract(self):
         original_extract = Archive._extract
-        
+
         def always_extract(cls):
             return True
 

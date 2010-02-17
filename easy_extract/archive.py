@@ -11,7 +11,11 @@ class BaseFileCollection(object):
         self.name = name
         self.path = path
         self.filenames = filenames
-        
+
+    @property
+    def files(self):
+        return self.filenames
+
     def escape_filename(self, filename):
         """Escape a filename"""
         for char in CHAR_TO_ESCAPE:
@@ -25,9 +29,15 @@ class BaseFileCollection(object):
     def get_command_filename(self, filename):
         """Convert filename for command line"""
         return self.escape_filename(self.get_path_filename(filename))
-    
+
     #def get_absolute_path_filename(self, filename):
     #    return os.path.abspath(os.join(self.path, filename))
+
+    #def remove(self):
+    #    """Remove all files collection"""
+    #    return os.system('rm -f %s' % ' '.join([self.get_command_filename(f)
+    #                                            for f in self.files]))
+
 
 class MedKit(BaseFileCollection):
     """MedKit is collection of par2 files"""
@@ -36,6 +46,10 @@ class MedKit(BaseFileCollection):
         super(MedKit, self).__init__(name, path, filenames)
         self.medkits = []
         self.find_medkits(self.filenames)
+
+    @property
+    def files(self):
+        return self.medkits
 
     def is_medkit_file(self, filename):
         """Check if the filename is a medkit"""
@@ -51,7 +65,7 @@ class MedKit(BaseFileCollection):
     def check_and_repair(self, silent=False):
         """Check and repair with medkits"""
         if self.medkits:
-            options = silent and '-qq' or ''            
+            options = silent and '-qq' or ''
             root_medkit = self.get_command_filename(self.medkits[0])
             result = os.system('par2 r %s %s' % (options, root_medkit))
             return bool(not result)
@@ -93,7 +107,7 @@ class Archive(MedKit):
         if not extraction and repair:
             if self.check_and_repair():
                 extraction = self._extract()
-        
+
         return extraction
 
     def _extract(self):
