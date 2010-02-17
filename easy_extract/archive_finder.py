@@ -56,5 +56,5 @@ class ArchiveFinder(object):
         archives = []
         for ars in self.path_archives_found.values():
             archives.extend(ars)
-        return archives
+        return sorted(archives)
 

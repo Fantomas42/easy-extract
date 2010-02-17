@@ -38,7 +38,7 @@ class ArchiveFinderTestCase(unittest.TestCase):
 
     def test_find_archives(self):
         af = ArchiveFinder()
-        
+
         self.assertEquals(len(af.find_archives([TEST_DIRPATH], False)), 1)
         self.assertNotEquals(len(af.find_archives([TEST_DIRPATH], True)), 1)
         self.assertEquals(len(af.find_archives(['.', TEST_DIRPATH], False)), 2)
@@ -47,7 +47,7 @@ class ArchiveFinderTestCase(unittest.TestCase):
         af = ArchiveFinder()
         filenames = ['archive_1.1', 'archive_1.2', 'archive_1.3',
                      'archive_2.1', 'archive_2.2', 'archive_2.3',]
-        
+
         result = af.get_path_archives('path', filenames)
         self.assertEquals(result, [])
         result = af.get_path_archives('path', filenames, [AllIsArchive,])
@@ -56,15 +56,17 @@ class ArchiveFinderTestCase(unittest.TestCase):
 
     def test_is_archive_file(self):
         af = ArchiveFinder()
-        
+
         self.assertEquals(af.is_archive_file('toto.avi'), (False, False))
         self.assertEquals(af.is_archive_file('toto.avi', [AllIsArchive,]), ('toto', AllIsArchive))
 
     def test_archives(self):
         af = ArchiveFinder()
         af.path_archives_found = TEST_PATH_ARCHIVES
-        
+
         self.assertEquals(len(af.archives), 3)
+        self.assertEquals(af.archives, ['archive_1', 'archive_2', 'archive_3'])
+
 
 
 suite = unittest.TestLoader().loadTestsFromTestCase(ArchiveFinderTestCase)
