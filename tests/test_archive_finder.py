@@ -5,8 +5,6 @@ from easy_extract.archive import Archive
 from easy_extract.archive_finder import ArchiveFinder
 
 TEST_DIRPATH  = './tests/'
-TEST_PATH_ARCHIVES = {'path_1': ['archive_1', 'archive_2'],
-                      'path_2': ['archive_3',],}
 
 class AllIsArchive(Archive):
     """Test Archive allowing all files for archive"""
@@ -61,11 +59,15 @@ class ArchiveFinderTestCase(unittest.TestCase):
         self.assertEquals(af.is_archive_file('toto.avi', [AllIsArchive,]), ('toto', AllIsArchive))
 
     def test_archives(self):
+        path_archives = {'path_1': [Archive('archive_1'), Archive('archive_2')], 
+                         'path_2': [Archive('archive_3')],}
+        
         af = ArchiveFinder()
-        af.path_archives_found = TEST_PATH_ARCHIVES
+        af.path_archives_found = path_archives
 
         self.assertEquals(len(af.archives), 3)
-        self.assertEquals(af.archives, ['archive_1', 'archive_2', 'archive_3'])
+        self.assertEquals([archive.name for archive in af.archives],
+                          ['archive_1', 'archive_2', 'archive_3'])
 
 
 

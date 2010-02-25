@@ -1,6 +1,6 @@
 """Find and build the archives"""
 import os
-
+import operator
 
 class ArchiveFinder(object):
     """Find and build the archives contained in path"""
@@ -56,5 +56,6 @@ class ArchiveFinder(object):
         archives = []
         for ars in self.path_archives_found.values():
             archives.extend(ars)
-        return sorted(archives)
+
+        return sorted(archives, key=operator.attrgetter('name'))
 
