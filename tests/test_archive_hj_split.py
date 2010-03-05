@@ -24,7 +24,9 @@ class HJSplitArchiveTestCase(unittest.TestCase):
                      'archive.003',]
         archive = HJSplitArchive('archive', './path', filenames)
         self.assertTrue(archive._extract())
-        self.assertEquals(system_commands, ['cat ./path/archive* > archive'])
+        self.assertEquals(system_commands,  ['cat ./path/archive.001 > archive',
+                                             'cat ./path/archive.002 >> archive',
+                                             'cat ./path/archive.003 >> archive'])
         
         os.system = original_system
 
