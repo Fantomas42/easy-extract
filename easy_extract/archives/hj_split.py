@@ -1,4 +1,4 @@
-"""HJ SpLIT archive format"""
+"""HJ Split archive format"""
 import os
 import re
 
@@ -10,7 +10,7 @@ class HJSplitArchive(Archive):
     """The HJ Split format"""
     ALLOWED_EXTENSIONS = EXTENSIONS
 
-    def _extract(self):
+    def _extract(self):        
         new_filename = self.escape_filename(self.name)
         first_archive = self.get_command_filename(self.archives[0])
         

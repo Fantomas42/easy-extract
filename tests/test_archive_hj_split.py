@@ -26,8 +26,20 @@ class HJSplitArchiveTestCase(unittest.TestCase):
         self.assertTrue(archive._extract())
         self.assertEquals(system_commands,  ['cat ./path/archive.001 > archive',
                                              'cat ./path/archive.002 >> archive',
-                                             'cat ./path/archive.003 >> archive'])
-        
+                                             'cat ./path/archive.003 >> archive'])        
         os.system = original_system
+
+    def test_extract(self):
+        name = 'test_hjsplit.txt'
+        dirpath = './tests/data/hjsplit'
+        archive = HJSplitArchive(name, dirpath,
+                                 os.listdir(dirpath))
+        self.assertTrue(archive.extract())
+
+        result = open(name, 'r')
+        self.assertEquals(result.read(), '123456789')
+        result.close()
+        os.system('rm -rf %s' % name)
+        
 
 suite = unittest.TestLoader().loadTestsFromTestCase(HJSplitArchiveTestCase)
