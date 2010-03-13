@@ -13,6 +13,8 @@ class HJSplitArchive(Archive):
     def _extract(self):        
         new_filename = self.escape_filename(self.name)
         first_archive = self.get_command_filename(self.archives[0])
+
+        print 'Extracting %s...' % new_filename
         
         os.system('cat %s > %s' % (first_archive, new_filename))
 
