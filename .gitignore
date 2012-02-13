@@ -1,0 +1,11 @@
+*.orig
+*.rej
+*~
+*.pyc
+.coverage
+TODO
+cover
+build
+dist
+pycallgraph.png
+easy_extract.egg-info/*
