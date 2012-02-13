@@ -7,6 +7,7 @@ from easy_extract.archive import MedKit
 from easy_extract.archive import Archive
 from easy_extract.archive import BaseFileCollection
 
+
 class BaseFileCollectionTestCase(unittest.TestCase):
 
     default_name = 'archive_name'
@@ -17,10 +18,12 @@ class BaseFileCollectionTestCase(unittest.TestCase):
         self.assertEquals(bfc.name, self.default_name)
         self.assertEquals(bfc.filenames, [])
 
-        bfc = BaseFileCollection(self.default_name, './tests/data', ['filename'])
+        bfc = BaseFileCollection(self.default_name,
+                                 './tests/data',
+                                 ['filename'])
         self.assertEquals(bfc.path, './tests/data')
         self.assertEquals(bfc.name, self.default_name)
-        self.assertEquals(bfc.filenames, ['filename',])
+        self.assertEquals(bfc.filenames, ['filename'])
 
     def test_files(self):
         bfc = BaseFileCollection(self.default_name)
@@ -30,20 +33,26 @@ class BaseFileCollectionTestCase(unittest.TestCase):
 
     def test_escape_filename(self):
         bfc = BaseFileCollection(self.default_name, '.')
-        self.assertEquals(bfc.escape_filename('"Coding is *Beautiful* & (Sexy)"'),
-                          '\\"Coding\\ is\\ \\*Beautiful\\*\\ \\&\\ \\(Sexy\\)\\"')
+        self.assertEquals(bfc.escape_filename(
+            '"Coding is *Beautiful* & (Sexy)"'),
+                          '\\"Coding\\ is\\ \\*Beautiful' \
+                          '\\*\\ \\&\\ \\(Sexy\\)\\"')
 
     def test_get_path_filename(self):
-        bfc = BaseFileCollection(self.default_name, '.', ['file1.ext', 'file2.ext'])
+        bfc = BaseFileCollection(self.default_name, '.',
+                                 ['file1.ext', 'file2.ext'])
         self.assertEquals(bfc.filenames[0], 'file1.ext')
-        self.assertEquals(bfc.get_path_filename(bfc.filenames[0]), './file1.ext')
+        self.assertEquals(bfc.get_path_filename(bfc.filenames[0]),
+                          './file1.ext')
         bfc.path = './tests'
-        self.assertEquals(bfc.get_path_filename(bfc.filenames[0]), './tests/file1.ext')
+        self.assertEquals(bfc.get_path_filename(bfc.filenames[0]),
+                          './tests/file1.ext')
 
     def test_get_command_filename(self):
         bfc = BaseFileCollection(self.default_name, './my path/*to file*')
         self.assertEquals(bfc.get_command_filename('file 1.txt'),
                           './my\\ path/\\*to\\ file\\*/file\\ 1.txt')
+
 
 class MedKitTestCase(unittest.TestCase):
 
@@ -99,12 +108,10 @@ class MedKitTestCase(unittest.TestCase):
         self.assertEquals(len(mk.medkits), 0)
         self.assertFalse(mk.check_and_repair())
 
-        medkits = ['file.par2', 'file.vol00.par2']
-        self.assertFalse(mk.check_and_repair())
-
         dirpath = './tests/data/medkits'
         mk = MedKit('test_PAR2', dirpath, os.listdir(dirpath))
         self.assertTrue(mk.check_and_repair(silent=True))
+
 
 class ArchiveTestCase(unittest.TestCase):
 
@@ -140,7 +147,7 @@ class ArchiveTestCase(unittest.TestCase):
     def test_is_archive_file(self):
         self.assertFalse(Archive.is_archive_file('file'))
 
-        Archive.ALLOWED_EXTENSIONS = [re.compile('.ext$', re.I),]
+        Archive.ALLOWED_EXTENSIONS = [re.compile('.ext$', re.I)]
         self.assertFalse(Archive.is_archive_file('file'))
         self.assertFalse(Archive.is_archive_file('file.ext1'))
         self.assertEquals(Archive.is_archive_file('file.ext'), 'file')
@@ -218,6 +225,7 @@ class ArchiveTestCase(unittest.TestCase):
         a.archives = range(10)
         a.medkits = range(5)
         self.assertEquals(str(a), 'archive_name (10 archives, 5 par2 files)')
+
 
 suite = unittest.TestSuite([
     unittest.TestLoader().loadTestsFromTestCase(BaseFileCollectionTestCase),

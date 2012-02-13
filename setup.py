@@ -1,6 +1,7 @@
-"""Installing veliberator"""
-from setuptools import setup, find_packages
-import sys, os
+"""Installing easy-extract"""
+import os
+from setuptools import setup
+from setuptools import find_packages
 
 from easy_extract import VERSION
 
@@ -9,17 +10,17 @@ setup(
     version=VERSION,
     zip_safe=False,
 
-    scripts=['./bin/easy_extract',],
-    packages=find_packages(exclude=['tests',]),
-    include_package_data=True,     
-    test_suite = 'tests.global_test_suite',
+    scripts=['./bin/easy_extract'],
+    packages=find_packages(exclude=['tests']),
+    include_package_data=True,
+    test_suite='tests.global_test_suite',
 
     author='Fantomas42',
     author_email='fantomas42@gmail.com',
     url='http://fantomas.willbreak.it',
- 
+
     license='GPL',
-    platforms = 'any',
+    platforms='any',
     description='Easy extraction of archives collections',
     long_description=open(os.path.join('README.rst')).read(),
     keywords='extract, rar, zip, xtm, hjsplit',

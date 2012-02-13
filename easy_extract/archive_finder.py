@@ -2,6 +2,7 @@
 import os
 import operator
 
+
 class ArchiveFinder(object):
     """Find and build the archives contained in path"""
 
@@ -11,10 +12,9 @@ class ArchiveFinder(object):
         self.paths = paths
         self.recursive = recursive
         self.archive_classes = archive_classes
-        
-        self.path_archives_found = self.find_archives(self.paths,
-                                                      self.recursive,
-                                                      self.archive_classes)
+
+        self.path_archives_found = self.find_archives(
+            self.paths, self.recursive, self.archive_classes)
 
     def is_archive_file(self, filename, archive_classes=[]):
         """Check if the filename is associated to an
@@ -28,10 +28,11 @@ class ArchiveFinder(object):
     def get_path_archives(self, path, filenames=[], archive_classes=[]):
         """Build and return Archives list from a path"""
         archives = {}
-            
+
         for filename in filenames:
-            name, archive_class = self.is_archive_file(filename, archive_classes)
-            
+            name, archive_class = self.is_archive_file(
+                filename, archive_classes)
+
             if archive_class and not name in archives.keys():
                 archives[name] = archive_class(name, path, filenames)
 
@@ -43,11 +44,11 @@ class ArchiveFinder(object):
 
         for path in paths:
             for (dirpath, dirnames, filenames) in os.walk(path):
-                path_archives[dirpath] = self.get_path_archives(dirpath, filenames,
-                                                                archive_classes)
+                path_archives[dirpath] = self.get_path_archives(
+                    dirpath, filenames, archive_classes)
                 if not recursive:
                     break
-                
+
         return path_archives
 
     @property
@@ -58,4 +59,3 @@ class ArchiveFinder(object):
             archives.extend(ars)
 
         return sorted(archives, key=operator.attrgetter('name'))
-

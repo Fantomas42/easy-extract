@@ -22,15 +22,17 @@ class RarArchiveTestCase(unittest.TestCase):
 
     def test__extract(self):
         system_commands = []
+
         def fake_system(cmd):
             system_commands.append(cmd)
+
         original_system = os.system
         os.system = fake_system
-        
+
         filenames = ['archive.rar',
                      'archive.r00',
                      'archive.r01',
-                     'archive.r02',]
+                     'archive.r02']
         archive = RarArchive('archive', './path', filenames)
         self.assertTrue(archive._extract())
         self.assertEquals(system_commands, ['unrar e ./path/archive.rar'])
@@ -47,12 +49,12 @@ class RarArchiveTestCase(unittest.TestCase):
                      'fil.usenet4all.S81103.avi.part03.rar',
                      'fil.usenet4all.S81103.avi.part04.rar',
                      'fil.usenet4all.S81103.avi.part05.rar',
-                     'fil.usenet4all.S81103.avi.part06.rar',]
+                     'fil.usenet4all.S81103.avi.part06.rar']
 
         af = ArchiveFinder()
         result = af.get_path_archives('path', filenames)
         self.assertEquals(result, [])
-        result = af.get_path_archives('path', filenames, [RarArchive,])
+        result = af.get_path_archives('path', filenames, [RarArchive])
         self.assertEquals(len(result), 1)
         self.assertEquals(result[0].name, 'fil.usenet4all.S81103.avi')
         self.assertEquals(len(result[0].archives), 6)
@@ -68,14 +70,14 @@ class RarArchiveTestCase(unittest.TestCase):
                      'bs-mbfs.abtt.par2',
                      'bs-mbfs.abtt.vol000+01.par2',
                      'bs-mbfs.abtt.vol001+02.par2',
-                     'bs-mbfs.nfo',]
+                     'bs-mbfs.nfo']
 
         af = ArchiveFinder()
         result = af.get_path_archives('path', filenames)
         self.assertEquals(result, [])
-        result = af.get_path_archives('path', filenames, [RarArchive,])
+        result = af.get_path_archives('path', filenames, [RarArchive])
         self.assertEquals(len(result), 1)
-        self.assertEquals(result[0].name, 'bs-mbfs')        
+        self.assertEquals(result[0].name, 'bs-mbfs')
         self.assertEquals(len(result[0].archives), 6)
         self.assertEquals(len(result[0].medkits), 3)
 
@@ -98,7 +100,7 @@ class RarArchiveTestCase(unittest.TestCase):
         af = ArchiveFinder()
         result = af.get_path_archives('path', filenames)
         self.assertEquals(result, [])
-        result = af.get_path_archives('path', filenames, [RarArchive,])
+        result = af.get_path_archives('path', filenames, [RarArchive])
         self.assertEquals(len(result), 2)
 
         for archive in result:
@@ -110,6 +112,4 @@ class RarArchiveTestCase(unittest.TestCase):
                 self.assertEquals(len(archive.archives), 2)
                 self.assertEquals(len(archive.medkits), 1)
 
-
 suite = unittest.TestLoader().loadTestsFromTestCase(RarArchiveTestCase)
-

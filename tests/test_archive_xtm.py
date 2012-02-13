@@ -4,6 +4,7 @@ import unittest
 
 from easy_extract.archives.xtm import XtmArchive
 
+
 class XtmArchiveTestCase(unittest.TestCase):
 
     def test_is_archive_file(self):
@@ -21,23 +22,24 @@ class XtmArchiveTestCase(unittest.TestCase):
 
     def test__extract(self):
         system_commands = []
+
         def fake_system(cmd):
             system_commands.append(cmd)
+
         original_system = os.system
         os.system = fake_system
-        
+
         filenames = ['archive.001.xtm',
                      'archive.002.xtm',
-                     'archive.003.xtm',]
+                     'archive.003.xtm']
         archive = XtmArchive('archive', './path', filenames)
         self.assertTrue(archive._extract())
         self.assertEquals(system_commands, [
-            'dd if=./path/archive.001.xtm skip=1 ibs=104 status=noxfer > archive 2>/dev/null',
+            'dd if=./path/archive.001.xtm skip=1 ibs=104 ' \
+            'status=noxfer > archive 2>/dev/null',
             'cat ./path/archive.002.xtm >> archive',
             'cat ./path/archive.003.xtm >> archive'])
-        
+
         os.system = original_system
 
 suite = unittest.TestLoader().loadTestsFromTestCase(XtmArchiveTestCase)
-
-
