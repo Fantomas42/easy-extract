@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import os
+import sys
 from optparse import OptionParser
 
 from easy_extract import __version__
@@ -27,7 +28,7 @@ class EasyExtract(ArchiveFinder):
         if self.can_extract(self.force_extract):
             self.extract_archives(self.repair, self.clean)
         else:
-            print 'No archives to extract !'
+            sys.exit('No archives to extract !')
 
     def get_path_archives(self, path, filenames, archive_classes):
         print 'Scanning %s...' % os.path.abspath(path)
