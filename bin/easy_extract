@@ -2,7 +2,7 @@
 import os
 from optparse import OptionParser
 
-from easy_extract import VERSION
+from easy_extract import __version__
 from easy_extract.archives.xtm import XtmArchive
 from easy_extract.archives.rar import RarArchive
 from easy_extract.archives.hj_split import HJSplitArchive
@@ -63,7 +63,7 @@ class EasyExtract(ArchiveFinder):
 
 if __name__ == '__main__':
     parser = OptionParser(usage='Usage: %prog [options] [directory]...',
-                          version='%prog ' + VERSION)
+                          version='%prog ' + __version__)
     parser.add_option('-f', '--force', dest='force_extract',
                       action='store_true', default=False,
                       help='Do not prompt confirmation message')
@@ -71,7 +71,7 @@ if __name__ == '__main__':
                       action='store_false', default=True,
                       help='Do not try to repair archives on errors')
     parser.add_option('-r', '--recursive', dest='recursive',
-                      action='store_true' default=False,
+                      action='store_true', default=False,
                       help='Find archives recursively')
     #parser.add_option('-c', '--clean', dest='clean',
     #                  action='store_true', default=False,
@@ -83,7 +83,7 @@ if __name__ == '__main__':
     if len(args):
         directories = args
 
-    print '--** Easy Extract v%s **--' % VERSION
+    print '--** Easy Extract v%s **--' % __version__
     EasyExtract(directories, options.recursive,
                 options.force_extract, options.repair)
                 #options.clean)

@@ -3,11 +3,11 @@ import os
 from setuptools import setup
 from setuptools import find_packages
 
-from easy_extract import VERSION
+import easy_extract
 
 setup(
     name='easy-extract',
-    version=VERSION,
+    version=easy_extract.__version__,
     zip_safe=False,
 
     scripts=['./bin/easy_extract'],
@@ -15,11 +15,11 @@ setup(
     include_package_data=True,
     test_suite='tests.global_test_suite',
 
-    author='Fantomas42',
-    author_email='fantomas42@gmail.com',
-    url='http://fantomas.willbreak.it',
+    author=easy_extract.__author__,
+    author_email=easy_extract.__email__,
+    url=easy_extract.__url__,
 
-    license='GPL',
+    license=easy_extract.__license__,
     platforms='any',
     description='Easy extraction of archives collections',
     long_description=open(os.path.join('README.rst')).read(),
