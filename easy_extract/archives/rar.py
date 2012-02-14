@@ -11,6 +11,7 @@ EXTENSIONS = [re.compile('.r\d{2}$', re.I),
 
 class RarArchive(Archive):
     """The Rar format Archive"""
+    archive_type = 'rar'
     ALLOWED_EXTENSIONS = EXTENSIONS
 
     def _extract(self):

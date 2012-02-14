@@ -9,6 +9,7 @@ EXTENSIONS = [re.compile('.\d{3}$', re.I)]
 
 class HJSplitArchive(Archive):
     """The HJ Split format"""
+    archive_type = 'hj-split'
     ALLOWED_EXTENSIONS = EXTENSIONS
 
     def _extract(self):

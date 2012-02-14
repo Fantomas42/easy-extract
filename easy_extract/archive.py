@@ -67,6 +67,7 @@ class MedKit(BaseFileCollection):
 
 class Archive(MedKit):
     """Archive is a collection of archive files and a MedKit"""
+    archive_type = 'undefined'
     ALLOWED_EXTENSIONS = []
 
     def __init__(self, name, path='.', filenames=[]):
@@ -110,5 +111,6 @@ class Archive(MedKit):
         raise NotImplementedError
 
     def __str__(self):
-        return '%s (%i archives, %i par2 files)' % (
-            self.name, len(self.archives), len(self.medkits))
+        return '%s (%i %s archives, %i par2 files)' % (
+            self.name, len(self.archives),
+            self.archive_type, len(self.medkits))

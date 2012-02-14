@@ -221,10 +221,12 @@ class ArchiveTestCase(unittest.TestCase):
 
     def test_str(self):
         a = Archive(self.default_name)
-        self.assertEquals(str(a), 'archive_name (0 archives, 0 par2 files)')
+        self.assertEquals(str(a), 'archive_name (0 undefined ' \
+                          'archives, 0 par2 files)')
         a.archives = range(10)
         a.medkits = range(5)
-        self.assertEquals(str(a), 'archive_name (10 archives, 5 par2 files)')
+        self.assertEquals(str(a), 'archive_name (10 undefined ' \
+                          'archives, 5 par2 files)')
 
 
 suite = unittest.TestSuite([

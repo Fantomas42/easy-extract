@@ -14,6 +14,7 @@ EXTENSIONS = [re.compile('%s$' % ext, re.I) for ext in RAW_EXTENSIONS]
 
 class SevenZipArchive(Archive):
     """The 7z unarchiver is used for many formats"""
+    archive_type = 'seven-zip'
     ALLOWED_EXTENSIONS = EXTENSIONS
 
     def _extract(self):

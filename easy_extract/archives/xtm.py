@@ -10,6 +10,7 @@ EXTENSIONS = [re.compile('.\d{3}.xtm$', re.I),
 
 class XtmArchive(Archive):
     """The XTM archive format"""
+    archive_type = 'xtm'
     ALLOWED_EXTENSIONS = EXTENSIONS
 
     def _extract(self):
