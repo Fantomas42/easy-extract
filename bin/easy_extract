@@ -80,7 +80,7 @@ if __name__ == '__main__':
                       help='Do not try to repair archives on errors')
     parser.add_option('-c', '--repair-only', dest='repair_only',
                       action='store_true', default=False,
-                      help='Do not try to repair archives on errors')
+                      help='Do only a check and repair operation')
     parser.add_option('-r', '--recursive', dest='recursive',
                       action='store_true', default=False,
                       help='Find archives recursively')

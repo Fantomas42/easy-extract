@@ -4,7 +4,7 @@ Easy-extract
 .. contents::
 
 Easy-extract try to be a simple and universal multipart unarchiver,
-it is designed to extract and repair collections of many archives format 
+it is designed to extract and repair collections of many archives format
 *(rar, zip, xtm)* in one command line.
 
 Very usefull when you grab on Usenet and you have many archives in differents directory.
@@ -32,9 +32,10 @@ Options:
   -h, --help        show this help message and exit
   -f, --force       Do not prompt confirmation message
   -n, --not-repair  Do not try to repair archives on errors
+  -c, --repair-only Do only a check and repair operation
   -r, --recursive   Find archives recursively
 
-Simply run **easy_extract** in the directory where the collections are. 
+Simply run **easy_extract** in the directory where the collections are.
 
     $> easy_extract
 
