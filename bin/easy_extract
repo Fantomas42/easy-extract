@@ -15,10 +15,12 @@ class EasyExtract(ArchiveFinder):
     """User interface for extracting archives"""
 
     def __init__(self, paths, recursive=False,
-                 force_extract=False, repair=True, clean=False):
+                 force_extract=False, repair=True,
+                 repair_only=False, clean=False):
         self.excludes = []
         self.clean = clean
         self.repair = repair
+        self.repair_only = repair_only
         self.force_extract = force_extract
 
         super(EasyExtract, self).__init__(paths, recursive,
@@ -26,7 +28,9 @@ class EasyExtract(ArchiveFinder):
                                            XtmArchive, HJSplitArchive])
 
         if self.can_extract(self.force_extract):
-            self.extract_archives(self.repair, self.clean)
+            self.extract_archives(self.repair,
+                                  self.repair_only,
+                                  self.clean)
         else:
             sys.exit('No archives to extract !')
 
@@ -55,12 +59,15 @@ class EasyExtract(ArchiveFinder):
                 return bool(self.archives)
         return False
 
-    def extract_archives(self, repair, clean):
+    def extract_archives(self, repair, repair_only, clean):
         for archive in self.archives:
             if archive not in self.excludes:
-                success = archive.extract(repair)
-                if success and clean:
-                    archive.remove()
+                if repair_only:
+                    archive.check_and_repair()
+                else:
+                    success = archive.extract(repair)
+                    if success and clean:
+                        archive.remove()
 
 if __name__ == '__main__':
     parser = OptionParser(usage='Usage: %prog [options] [directory]...',
@@ -70,6 +77,9 @@ if __name__ == '__main__':
                       help='Do not prompt confirmation message')
     parser.add_option('-n', '--not-repair', dest='repair',
                       action='store_false', default=True,
+                      help='Do not try to repair archives on errors')
+    parser.add_option('-c', '--repair-only', dest='repair_only',
+                      action='store_true', default=False,
                       help='Do not try to repair archives on errors')
     parser.add_option('-r', '--recursive', dest='recursive',
                       action='store_true', default=False,
@@ -86,5 +96,6 @@ if __name__ == '__main__':
 
     print '--** Easy Extract v%s **--' % __version__
     EasyExtract(directories, options.recursive,
-                options.force_extract, options.repair)
+                options.force_extract, options.repair,
+                options.repair_only)
                 #options.clean)
