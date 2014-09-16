@@ -20,4 +20,4 @@ class RarArchive(Archive):
         else:
             first_archive = self.get_command_filename(self.archives[0])
 
-        return not os.system('unrar e %s' % first_archive)
+        return not os.system('unrar e -o+ %s' % first_archive)
