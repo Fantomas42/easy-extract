@@ -19,4 +19,4 @@ class SevenZipArchive(Archive):
 
     def _extract(self):
         first_archive = self.get_command_filename(self.archives[0])
-        return not os.system('7z e %s' % first_archive)
+        return not os.system('7z e -y %s' % first_archive)
