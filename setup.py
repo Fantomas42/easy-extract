@@ -10,10 +10,9 @@ setup(
     version=easy_extract.__version__,
     zip_safe=False,
 
-    scripts=['./bin/easy_extract'],
+
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
-    test_suite='tests.global_test_suite',
 
     author=easy_extract.__author__,
     author_email=easy_extract.__email__,
@@ -31,4 +30,11 @@ setup(
         'Programming Language :: Python',
         'Topic :: Utilities',
         ],
-    )
+
+    entry_points={
+        'console_scripts': [
+            'easy-extract=easy_extract.scripts.easy_extract:cmdline'
+        ]
+    },
+    test_suite='tests.global_test_suite',
+)
