@@ -69,7 +69,8 @@ class EasyExtract(ArchiveFinder):
                     if success and clean:
                         archive.remove()
 
-if __name__ == '__main__':
+
+def cmdline():
     parser = OptionParser(usage='Usage: %prog [options] [directory]...',
                           version='%prog ' + __version__)
     parser.add_option('-f', '--force', dest='force_extract',
