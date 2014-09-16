@@ -1,4 +1,3 @@
-#!/usr/bin/python
 import os
 import sys
 from optparse import OptionParser
@@ -37,7 +36,7 @@ class EasyExtract(ArchiveFinder):
     def get_path_archives(self, path, filenames, archive_classes):
         print 'Scanning %s...' % os.path.abspath(path)
         archives = super(EasyExtract, self).get_path_archives(
-              path, filenames, archive_classes)
+            path, filenames, archive_classes)
         return archives
 
     def can_extract(self, force):
@@ -47,7 +46,7 @@ class EasyExtract(ArchiveFinder):
             for archive in self.archives:
                 print archive
 
-            extract = raw_input('%i archives found. Extract all ? ' \
+            extract = raw_input('%i archives found. Extract all ? '
                                 '[Y]es / No / Select : ' % len(self.archives))
             if not extract or 'y' in extract.lower():
                 return True
@@ -69,7 +68,8 @@ class EasyExtract(ArchiveFinder):
                     if success and clean:
                         archive.remove()
 
-if __name__ == '__main__':
+
+def cmdline():
     parser = OptionParser(usage='Usage: %prog [options] [directory]...',
                           version='%prog ' + __version__)
     parser.add_option('-f', '--force', dest='force_extract',
@@ -84,9 +84,6 @@ if __name__ == '__main__':
     parser.add_option('-r', '--recursive', dest='recursive',
                       action='store_true', default=False,
                       help='Find archives recursively')
-    #parser.add_option('-c', '--clean', dest='clean',
-    #                  action='store_true', default=False,
-    #                  help='Remove archives files successfully extracted')
 
     (options, args) = parser.parse_args()
 
@@ -98,4 +95,3 @@ if __name__ == '__main__':
     EasyExtract(directories, options.recursive,
                 options.force_extract, options.repair,
                 options.repair_only)
-                #options.clean)
