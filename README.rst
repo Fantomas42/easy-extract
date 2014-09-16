@@ -28,12 +28,12 @@ Usage
 Usage: easy_extract [options] [directory]...
 
 Options:
-  --version         show program's version number and exit
-  -h, --help        show this help message and exit
-  -f, --force       Do not prompt confirmation message
-  -n, --not-repair  Do not try to repair archives on errors
-  -c, --repair-only Do only a check and repair operation
-  -r, --recursive   Find archives recursively
+  --version          show program's version number and exit
+  -h, --help         show this help message and exit
+  -f, --force        Do not prompt confirmation message
+  -n, --not-repair   Do not try to repair archives on errors
+  -c, --repair-only  Do only a check and repair operation
+  -r, --recursive    Find archives recursively
 
 Simply run **easy_extract** in the directory where the collections are: ::
 
