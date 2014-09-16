@@ -35,7 +35,7 @@ class RarArchiveTestCase(unittest.TestCase):
                      'archive.r02']
         archive = RarArchive('archive', './path', filenames)
         self.assertTrue(archive._extract())
-        self.assertEquals(system_commands, ['unrar e ./path/archive.rar'])
+        self.assertEquals(system_commands, ['unrar e -o+ ./path/archive.rar'])
         os.system = original_system
 
     def test_realcase_1(self):

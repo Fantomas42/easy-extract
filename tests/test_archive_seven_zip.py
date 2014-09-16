@@ -43,7 +43,7 @@ class SevenZipArchiveTestCase(unittest.TestCase):
         filenames = ['archive.zip']
         archive = SevenZipArchive('archive', './path', filenames)
         self.assertTrue(archive._extract())
-        self.assertEquals(system_commands, ['7z e ./path/archive.zip'])
+        self.assertEquals(system_commands, ['7z e -y ./path/archive.zip'])
         os.system = original_system
 
 suite = unittest.TestLoader().loadTestsFromTestCase(SevenZipArchiveTestCase)
