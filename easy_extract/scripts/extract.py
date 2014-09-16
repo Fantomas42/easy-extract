@@ -53,7 +53,7 @@ class EasyExtract(ArchiveFinder):
             if 's' in extract.lower():
                 for archive in self.archives:
                     extract = raw_input('Extract %s ? [Y]es / No : ' % archive)
-                    if extract and not 'y' in extract.lower():
+                    if extract and 'y' not in extract.lower():
                         self.excludes.append(archive)
                 return bool(self.archives)
         return False

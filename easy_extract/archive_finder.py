@@ -33,7 +33,7 @@ class ArchiveFinder(object):
             name, archive_class = self.is_archive_file(
                 filename, archive_classes)
 
-            if archive_class and not name in archives.keys():
+            if archive_class and name not in archives.keys():
                 archives[name] = archive_class(name, path, filenames)
 
         return archives.values()

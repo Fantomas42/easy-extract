@@ -19,7 +19,7 @@ class XtmArchive(Archive):
 
         print 'Extracting %s...' % new_filename
 
-        os.system('dd if=%s skip=1 ibs=104 status=noxfer > %s 2>/dev/null' % \
+        os.system('dd if=%s skip=1 ibs=104 status=noxfer > %s 2>/dev/null' %
                   (first_archive, new_filename))
 
         for archive in self.archives[1:]:
