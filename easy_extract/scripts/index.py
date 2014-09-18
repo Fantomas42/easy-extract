@@ -24,12 +24,12 @@ class EasyIndex(ArchiveFinder):
         return archives
 
     @property
-    def can_extract(self):
+    def can_index(self):
         return bool(self.archives)
 
     def index_medias(self):
         for archive in self.archives:
-            print '- Indexing %s' % archive
+            print '- Indexing %s' % archive.archives[0]
             archive.extract()
 
 
