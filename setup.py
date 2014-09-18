@@ -33,7 +33,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'easy-extract=easy_extract.scripts.extract:cmdline'
+            'easy-extract=easy_extract.scripts.extract:cmdline',
             'easy-index=easy_extract.scripts.index:cmdline'
         ]
     },
