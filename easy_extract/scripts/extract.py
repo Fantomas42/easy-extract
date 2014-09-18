@@ -52,10 +52,20 @@ class EasyExtract(ArchiveFinder):
                 return True
             if 's' in extract.lower():
                 for archive in self.archives:
-                    extract = raw_input('Extract %s ? [Y]es / No : ' % archive)
-                    if extract and 'y' not in extract.lower():
-                        self.excludes.append(archive)
-                return bool(self.archives)
+                    extract = raw_input(
+                        'Extract %s ? [Y]es / No / All / Quit : ' % archive)
+                    extract = extract.lower()
+                    if extract:
+                        if 'n' in extract:
+                            self.excludes.append(archive)
+                        elif 'a' in extract:
+                            break
+                        elif 'q' in extract:
+                            index = self.archives.index(archive)
+                            self.excludes.extend(self.archives[index:])
+                            break
+
+                return bool(len(self.archives) - len(self.excludes))
         return False
 
     def extract_archives(self, repair, repair_only, clean):
