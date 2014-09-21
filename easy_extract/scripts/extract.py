@@ -3,6 +3,7 @@ import sys
 from optparse import OptionParser
 
 from easy_extract import __version__
+from easy_extract.scripts.index import EasyIndex
 from easy_extract.archives.xtm import XtmArchive
 from easy_extract.archives.rar import RarArchive
 from easy_extract.archives.hj_split import HJSplitArchive
@@ -94,6 +95,9 @@ def cmdline():
     parser.add_option('-r', '--recursive', dest='recursive',
                       action='store_true', default=False,
                       help='Find archives recursively')
+    parser.add_option('-x', '--no-index', dest='index',
+                      action='store_false', default=True,
+                      help='Do not index the extracted files')
 
     (options, args) = parser.parse_args()
 
@@ -105,3 +109,5 @@ def cmdline():
     EasyExtract(directories, options.recursive,
                 options.force_extract, options.repair,
                 options.repair_only)
+    if options.index:
+        EasyIndex(directories, options.recursive)
