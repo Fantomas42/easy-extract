@@ -29,7 +29,7 @@ class EasyIndex(ArchiveFinder):
 
     def index_medias(self):
         for archive in self.archives:
-            print '- Indexing %s' % archive.archives[0]
+            print 'Indexing %s' % archive.archives[0]
             archive.extract()
 
 
