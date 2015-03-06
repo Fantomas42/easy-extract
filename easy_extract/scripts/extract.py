@@ -109,5 +109,5 @@ def cmdline():
     EasyExtract(directories, options.recursive,
                 options.force_extract, options.repair,
                 options.repair_only)
-    if options.index:
+    if options.index and not options.repair_only:
         EasyIndex(directories, options.recursive)
