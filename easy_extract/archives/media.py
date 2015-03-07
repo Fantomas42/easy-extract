@@ -4,9 +4,9 @@ import re
 
 from easy_extract.archive import Archive
 
-RAW_EXTENSIONS = ['.AVI', '.OGG', '.OGV',
-                  '.MP4', '.MPG', '.MPEG',
-                  '.MKV', '.M4V']
+RAW_EXTENSIONS = ['\.AVI', '\.OGG', '\.OGV',
+                  '\.MP4', '\.MPG', '\.MPEG',
+                  '\.MKV', '\.M4V']
 
 EXTENSIONS = [re.compile('%s$' % ext, re.I) for ext in RAW_EXTENSIONS]
 

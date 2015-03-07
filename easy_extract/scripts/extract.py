@@ -6,6 +6,7 @@ from easy_extract import __version__
 from easy_extract.scripts.index import EasyIndex
 from easy_extract.archives.xtm import XtmArchive
 from easy_extract.archives.rar import RarArchive
+from easy_extract.archives.renamed import RenamedArchive
 from easy_extract.archives.hj_split import HJSplitArchive
 from easy_extract.archives.seven_zip import SevenZipArchive
 from easy_extract.archive_finder import ArchiveFinder
@@ -25,7 +26,8 @@ class EasyExtract(ArchiveFinder):
 
         super(EasyExtract, self).__init__(paths, recursive,
                                           [RarArchive, SevenZipArchive,
-                                           XtmArchive, HJSplitArchive])
+                                           XtmArchive, HJSplitArchive,
+                                           RenamedArchive])
 
         if self.can_extract(self.force_extract):
             self.extract_archives(self.repair,

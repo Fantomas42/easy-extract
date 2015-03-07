@@ -110,7 +110,7 @@ class MedKitTestCase(unittest.TestCase):
 
         dirpath = './tests/data/medkits'
         mk = MedKit('test_PAR2', dirpath, os.listdir(dirpath))
-        self.assertTrue(mk.check_and_repair(silent=True))
+        self.assertTrue(mk.check_and_repair(silent=True))  # sudo apt-get install par2 ?
 
 
 class ArchiveTestCase(unittest.TestCase):

@@ -4,9 +4,9 @@ import re
 
 from easy_extract.archive import Archive
 
-EXTENSIONS = [re.compile('.r\d{2}$', re.I),
-              re.compile('.part\d+.rar$', re.I),
-              re.compile('.rar$', re.I)]
+EXTENSIONS = [re.compile('\.r\d{2}$', re.I),
+              re.compile('\.part\d+\.rar$', re.I),
+              re.compile('\.rar$', re.I)]
 
 
 class RarArchive(Archive):

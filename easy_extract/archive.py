@@ -60,7 +60,9 @@ class MedKit(BaseFileCollection):
         if self.medkits:
             options = silent and '-qq' or ''
             root_medkit = self.get_command_filename(self.medkits[0])
-            result = os.system('par2 r %s %s' % (options, root_medkit))
+            extra_kits = '%s*' % self.get_command_filename(self.name)
+            command = 'par2 r %s %s %s' % (options, root_medkit, extra_kits)
+            result = os.system(command)
             return bool(not result)
         return False
 
