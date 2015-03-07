@@ -4,8 +4,8 @@ import re
 
 from easy_extract.archive import Archive
 
-EXTENSIONS = [re.compile('.\d{3}.xtm$', re.I),
-              re.compile('.xtm$', re.I)]
+EXTENSIONS = [re.compile('\.\d{3}\.xtm$', re.I),
+              re.compile('\.xtm$', re.I)]
 
 
 class XtmArchive(Archive):

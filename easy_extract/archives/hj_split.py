@@ -4,7 +4,7 @@ import re
 
 from easy_extract.archive import Archive
 
-EXTENSIONS = [re.compile('.\d{3}$', re.I)]
+EXTENSIONS = [re.compile('\.\d{3}$', re.I)]
 
 
 class HJSplitArchive(Archive):

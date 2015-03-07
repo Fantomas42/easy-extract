@@ -4,10 +4,10 @@ import re
 
 from easy_extract.archive import Archive
 
-RAW_EXTENSIONS = ['.ARJ', '.CAB', '.CHM', '.CPIO',
-                  '.DMG', '.HFS', '.LZH', '.LZMA',
-                  '.NSIS', '.UDF', '.WIM', '.XAR',
-                  '.Z', '.ZIP', '.GZIP', '.TAR']
+RAW_EXTENSIONS = ['\.ARJ', '\.CAB', '\.CHM', '\.CPIO',
+                  '\.DMG', '\.HFS', '\.LZH', '\.LZMA',
+                  '\.NSIS', '\.UDF', '\.WIM', '\.XAR',
+                  '\.Z', '\.ZIP', '\.GZIP', '\.TAR']
 
 EXTENSIONS = [re.compile('%s$' % ext, re.I) for ext in RAW_EXTENSIONS]
 
