@@ -44,7 +44,7 @@ class EasyExtract(ArchiveFinder):
 
     def can_extract(self, force):
         if self.archives:
-            if force:
+            if force or len(self.archives) == 1:
                 return True
             for archive in self.archives:
                 print archive
