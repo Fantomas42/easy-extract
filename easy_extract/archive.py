@@ -30,6 +30,11 @@ class BaseFileCollection(object):
         """Convert filename for command line"""
         return self.escape_filename(self.get_path_filename(filename))
 
+    def remove(self):
+        """Remove all files collection"""
+        return os.system('rm -f %s' % ' '.join(
+            [self.get_command_filename(f) for f in self.files]))
+
 
 class MedKit(BaseFileCollection):
     """MedKit is collection of par2 files"""
@@ -45,13 +50,13 @@ class MedKit(BaseFileCollection):
 
     def is_medkit_file(self, filename):
         """Check if the filename is a medkit"""
-        return bool(filename.startswith(self.name) \
-                    and filename.lower().endswith('.par2'))
+        return bool(filename.startswith(self.name) and
+                    filename.lower().endswith('.par2'))
 
     def find_medkits(self, filenames=[]):
         """Find files for building the medkit"""
         for filename in filenames:
-            if self.is_medkit_file(filename) and not filename in self.medkits:
+            if self.is_medkit_file(filename) and filename not in self.medkits:
                 self.medkits.append(filename)
         self.medkits.sort()
 
@@ -60,7 +65,9 @@ class MedKit(BaseFileCollection):
         if self.medkits:
             options = silent and '-qq' or ''
             root_medkit = self.get_command_filename(self.medkits[0])
-            result = os.system('par2 r %s %s' % (options, root_medkit))
+            extra_kits = '%s*' % self.get_command_filename(self.name)
+            command = 'par2 r %s %s %s' % (options, root_medkit, extra_kits)
+            result = os.system(command)
             return bool(not result)
         return False
 
@@ -90,9 +97,9 @@ class Archive(MedKit):
     def find_archives(self, filenames=[]):
         """Find files for building the archive"""
         for filename in filenames:
-            if filename.startswith(self.name) \
-                   and self.is_archive_file(filename) \
-                   and not filename in self.archives:
+            if (filename.startswith(self.name) and
+                self.is_archive_file(filename) and
+                    filename not in self.archives):
                 self.archives.append(filename)
         self.archives.sort()
 
@@ -111,6 +118,9 @@ class Archive(MedKit):
         raise NotImplementedError
 
     def __str__(self):
-        return '%s (%i %s archives, %i par2 files)' % (
-            self.name, len(self.archives),
-            self.archive_type, len(self.medkits))
+        if self.medkits:
+            return '%s (%i %s archives, %i par2 files)' % (
+                self.name, len(self.archives),
+                self.archive_type, len(self.medkits))
+        return '%s (%i %s archives)' % (
+            self.name, len(self.archives), self.archive_type)

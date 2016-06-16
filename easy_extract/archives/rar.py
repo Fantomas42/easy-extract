@@ -4,9 +4,9 @@ import re
 
 from easy_extract.archive import Archive
 
-EXTENSIONS = [re.compile('.r\d{2}$', re.I),
-              re.compile('.part\d+.rar$', re.I),
-              re.compile('.rar$', re.I)]
+EXTENSIONS = [re.compile('\.r\d{2}$', re.I),
+              re.compile('\.part\d+\.rar$', re.I),
+              re.compile('\.rar$', re.I)]
 
 
 class RarArchive(Archive):
@@ -20,4 +20,4 @@ class RarArchive(Archive):
         else:
             first_archive = self.get_command_filename(self.archives[0])
 
-        return not os.system('unrar e %s' % first_archive)
+        return not os.system('unrar e -o+ %s' % first_archive)

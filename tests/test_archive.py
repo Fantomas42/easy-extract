@@ -35,8 +35,8 @@ class BaseFileCollectionTestCase(unittest.TestCase):
         bfc = BaseFileCollection(self.default_name, '.')
         self.assertEquals(bfc.escape_filename(
             '"Coding is *Beautiful* & (Sexy)"'),
-                          '\\"Coding\\ is\\ \\*Beautiful' \
-                          '\\*\\ \\&\\ \\(Sexy\\)\\"')
+            '\\"Coding\\ is\\ \\*Beautiful'
+            '\\*\\ \\&\\ \\(Sexy\\)\\"')
 
     def test_get_path_filename(self):
         bfc = BaseFileCollection(self.default_name, '.',
@@ -52,6 +52,23 @@ class BaseFileCollectionTestCase(unittest.TestCase):
         bfc = BaseFileCollection(self.default_name, './my path/*to file*')
         self.assertEquals(bfc.get_command_filename('file 1.txt'),
                           './my\\ path/\\*to\\ file\\*/file\\ 1.txt')
+
+    def test_remove(self):
+        system_commands = []
+
+        def fake_system(cmd):
+            system_commands.append(cmd)
+
+        original_system = os.system
+        os.system = fake_system
+
+        bfc = BaseFileCollection(self.default_name, '/path')
+        bfc.filenames = ['toto.ext', 'titi.ext']
+        bfc.remove()
+
+        self.assertEquals(system_commands,
+                          ['rm -f /path/toto.ext /path/titi.ext'])
+        os.system = original_system
 
 
 class MedKitTestCase(unittest.TestCase):
@@ -110,7 +127,26 @@ class MedKitTestCase(unittest.TestCase):
 
         dirpath = './tests/data/medkits'
         mk = MedKit('test_PAR2', dirpath, os.listdir(dirpath))
-        self.assertTrue(mk.check_and_repair(silent=True))
+        self.assertTrue(
+            mk.check_and_repair(silent=True))  # sudo apt-get install par2 ?
+
+    def test_remove(self):
+        system_commands = []
+
+        def fake_system(cmd):
+            system_commands.append(cmd)
+
+        original_system = os.system
+        os.system = fake_system
+
+        dirpath = './tests/data/medkits'
+        mk = MedKit('test_PAR2', dirpath, os.listdir(dirpath))
+        mk.remove()
+
+        self.assertEquals(system_commands,
+                          ['rm -f ./tests/data/medkits/test_PAR2.txt.par2 '
+                           './tests/data/medkits/test_PAR2.txt.vol0+1.par2'])
+        os.system = original_system
 
 
 class ArchiveTestCase(unittest.TestCase):
@@ -219,14 +255,34 @@ class ArchiveTestCase(unittest.TestCase):
         a = Archive(self.default_name)
         self.assertRaises(NotImplementedError, a.extract)
 
+    def test_remove(self):
+        system_commands = []
+
+        def fake_system(cmd):
+            system_commands.append(cmd)
+
+        original_system = os.system
+        os.system = fake_system
+
+        a = Archive(self.default_name)
+        a.medkits = ['toto', 'titi']
+        a.archives = ['tata', 'tutu']
+        a.remove()
+
+        self.assertEquals(system_commands,
+                          ['rm -f ./tata ./tutu ./toto ./titi'])
+        os.system = original_system
+
     def test_str(self):
         a = Archive(self.default_name)
-        self.assertEquals(str(a), 'archive_name (0 undefined ' \
-                          'archives, 0 par2 files)')
+        self.assertEquals(
+            str(a),
+            'archive_name (0 undefined archives)')
         a.archives = range(10)
         a.medkits = range(5)
-        self.assertEquals(str(a), 'archive_name (10 undefined ' \
-                          'archives, 5 par2 files)')
+        self.assertEquals(
+            str(a),
+            'archive_name (10 undefined archives, 5 par2 files)')
 
 
 suite = unittest.TestSuite([

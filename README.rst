@@ -14,13 +14,13 @@ Installation
 
 Before you start using easy-extract, you must install these softwares :
 
- * unrar-free
- * 7zip-full
- * par2
+* unrar-free
+* 7zip-full
+* par2
 
-Then use easy_install
+Then use easy_install: ::
 
-    $> easy_install easy-extract
+  $ easy_install easy-extract
 
 Usage
 -----
@@ -28,20 +28,22 @@ Usage
 Usage: easy_extract [options] [directory]...
 
 Options:
-  --version         show program's version number and exit
-  -h, --help        show this help message and exit
-  -f, --force       Do not prompt confirmation message
-  -n, --not-repair  Do not try to repair archives on errors
-  -c, --repair-only Do only a check and repair operation
-  -r, --recursive   Find archives recursively
+  --version          show program's version number and exit
+  -h, --help         show this help message and exit
+  -f, --force        Do not prompt confirmation message
+  -n, --not-repair   Do not try to repair archives on errors
+  -c, --repair-only  Do only a check and repair operation
+  -r, --recursive    Find archives recursively
+  -k, --keep         Do not delete archives on success
+  -x, --no-index     Do not index the extracted files
 
-Simply run **easy_extract** in the directory where the collections are.
+Simply run **easy_extract** in the directory where the collections are: ::
 
-    $> easy_extract
+  $ easy_extract
 
-or for finding archives recursivly in a directory.
+To find archives recursively in a directory: ::
 
-    $> easy_extract -r my_archives/
+  $ easy_extract -r my_archives/
 
 All the archives found will be prompted, then confirm the extraction.
 Go make a coffee, the script will do the rest !
@@ -50,11 +52,10 @@ Easy_extract will handle the repair if the archives are corrupted.
 Code
 ----
 
-If you want to reuse the code to find archives you can do something like that :
+If you want to reuse the code to find archives you can do something like that : ::
 
   >>> from easy_extract.archive_finder import ArchiveFinder
   >>> from easy_extract.archives.rar import RarArchive
-  >>>
   >>> archive_finder = ArchiveFinder('./my_path/', recursive=True, archive_classes=[RarArchive,])
   >>> archive_finder.archives
   ... [<easy_extract.archives.rar.RarArchive object at 0x...>, <easy_extract.archives.rar.RarArchive object at 0x...>]
