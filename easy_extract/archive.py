@@ -30,6 +30,11 @@ class BaseFileCollection(object):
         """Convert filename for command line"""
         return self.escape_filename(self.get_path_filename(filename))
 
+    def remove(self):
+        """Remove all files collection"""
+        return os.system('rm -f %s' % ' '.join(
+            [self.get_command_filename(f) for f in self.files]))
+
 
 class MedKit(BaseFileCollection):
     """MedKit is collection of par2 files"""

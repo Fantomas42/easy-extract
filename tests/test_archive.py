@@ -53,6 +53,23 @@ class BaseFileCollectionTestCase(unittest.TestCase):
         self.assertEquals(bfc.get_command_filename('file 1.txt'),
                           './my\\ path/\\*to\\ file\\*/file\\ 1.txt')
 
+    def test_remove(self):
+        system_commands = []
+
+        def fake_system(cmd):
+            system_commands.append(cmd)
+
+        original_system = os.system
+        os.system = fake_system
+
+        bfc = BaseFileCollection(self.default_name, '/path')
+        bfc.filenames = ['toto.ext', 'titi.ext']
+        bfc.remove()
+
+        self.assertEquals(system_commands,
+                          ['rm -f /path/toto.ext /path/titi.ext'])
+        os.system = original_system
+
 
 class MedKitTestCase(unittest.TestCase):
 
@@ -112,6 +129,24 @@ class MedKitTestCase(unittest.TestCase):
         mk = MedKit('test_PAR2', dirpath, os.listdir(dirpath))
         self.assertTrue(
             mk.check_and_repair(silent=True))  # sudo apt-get install par2 ?
+
+    def test_remove(self):
+        system_commands = []
+
+        def fake_system(cmd):
+            system_commands.append(cmd)
+
+        original_system = os.system
+        os.system = fake_system
+
+        dirpath = './tests/data/medkits'
+        mk = MedKit('test_PAR2', dirpath, os.listdir(dirpath))
+        mk.remove()
+
+        self.assertEquals(system_commands,
+                          ['rm -f ./tests/data/medkits/test_PAR2.txt.par2 '
+                           './tests/data/medkits/test_PAR2.txt.vol0+1.par2'])
+        os.system = original_system
 
 
 class ArchiveTestCase(unittest.TestCase):
@@ -219,6 +254,24 @@ class ArchiveTestCase(unittest.TestCase):
     def test__extract(self):
         a = Archive(self.default_name)
         self.assertRaises(NotImplementedError, a.extract)
+
+    def test_remove(self):
+        system_commands = []
+
+        def fake_system(cmd):
+            system_commands.append(cmd)
+
+        original_system = os.system
+        os.system = fake_system
+
+        a = Archive(self.default_name)
+        a.medkits = ['toto', 'titi']
+        a.archives = ['tata', 'tutu']
+        a.remove()
+
+        self.assertEquals(system_commands,
+                          ['rm -f ./tata ./tutu ./toto ./titi'])
+        os.system = original_system
 
     def test_str(self):
         a = Archive(self.default_name)
