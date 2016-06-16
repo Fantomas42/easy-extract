@@ -42,4 +42,23 @@ class XtmArchiveTestCase(unittest.TestCase):
 
         os.system = original_system
 
+    def test_remove(self):
+        system_commands = []
+
+        def fake_system(cmd):
+            system_commands.append(cmd)
+
+        original_system = os.system
+        os.system = fake_system
+
+        filenames = ['archive.001.xtm',
+                     'archive.002.xtm',
+                     'archive.003.xtm']
+        archive = XtmArchive('archive', './path', filenames)
+        archive.remove()
+        self.assertEquals(system_commands, [])
+
+        os.system = original_system
+
+
 suite = unittest.TestLoader().loadTestsFromTestCase(XtmArchiveTestCase)

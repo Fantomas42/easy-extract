@@ -33,3 +33,6 @@ class RenamedArchive(Archive):
             for archive in archives:
                 if archive.name == self.name:
                     archive.extract(False)
+
+    def remove(self):
+        pass

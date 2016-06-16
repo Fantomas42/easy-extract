@@ -46,4 +46,19 @@ class SevenZipArchiveTestCase(unittest.TestCase):
         self.assertEquals(system_commands, ['7z e -y ./path/archive.zip'])
         os.system = original_system
 
+    def test_remove(self):
+        system_commands = []
+
+        def fake_system(cmd):
+            system_commands.append(cmd)
+
+        original_system = os.system
+        os.system = fake_system
+
+        filenames = ['archive.zip']
+        archive = SevenZipArchive('archive', './path', filenames)
+        archive.remove()
+        self.assertEquals(system_commands, ['rm -f ./path/archive.zip'])
+        os.system = original_system
+
 suite = unittest.TestLoader().loadTestsFromTestCase(SevenZipArchiveTestCase)

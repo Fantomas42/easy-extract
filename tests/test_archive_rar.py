@@ -38,6 +38,26 @@ class RarArchiveTestCase(unittest.TestCase):
         self.assertEquals(system_commands, ['unrar e -o+ ./path/archive.rar'])
         os.system = original_system
 
+    def test_remove(self):
+        system_commands = []
+
+        def fake_system(cmd):
+            system_commands.append(cmd)
+
+        original_system = os.system
+        os.system = fake_system
+
+        filenames = ['archive.rar',
+                     'archive.r00',
+                     'archive.r01',
+                     'archive.r02']
+        archive = RarArchive('archive', './path', filenames)
+        archive.remove()
+        self.assertEquals(system_commands,
+                          ['rm -f ./path/archive.r00 ./path/archive.r01 '
+                           './path/archive.r02 ./path/archive.rar'])
+        os.system = original_system
+
     def test_realcase_1(self):
         filenames = ['fil.usenet4all.S81103.avi.part01.rar',
                      'fil.usenet4all.S81103.avi.part01.rar.par2',

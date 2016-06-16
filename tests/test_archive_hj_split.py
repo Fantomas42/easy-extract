@@ -45,4 +45,22 @@ class HJSplitArchiveTestCase(unittest.TestCase):
         result.close()
         os.system('rm -rf %s' % name)
 
+    def test_remove(self):
+        system_commands = []
+
+        def fake_system(cmd):
+            system_commands.append(cmd)
+
+        original_system = os.system
+        os.system = fake_system
+
+        filenames = ['archive.001',
+                     'archive.002',
+                     'archive.003']
+        archive = HJSplitArchive('archive', './path', filenames)
+        archive.remove()
+        self.assertEquals(system_commands,
+                          [])
+        os.system = original_system
+
 suite = unittest.TestLoader().loadTestsFromTestCase(HJSplitArchiveTestCase)
