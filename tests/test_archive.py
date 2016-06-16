@@ -35,8 +35,8 @@ class BaseFileCollectionTestCase(unittest.TestCase):
         bfc = BaseFileCollection(self.default_name, '.')
         self.assertEquals(bfc.escape_filename(
             '"Coding is *Beautiful* & (Sexy)"'),
-                          '\\"Coding\\ is\\ \\*Beautiful' \
-                          '\\*\\ \\&\\ \\(Sexy\\)\\"')
+            '\\"Coding\\ is\\ \\*Beautiful'
+            '\\*\\ \\&\\ \\(Sexy\\)\\"')
 
     def test_get_path_filename(self):
         bfc = BaseFileCollection(self.default_name, '.',
@@ -110,7 +110,8 @@ class MedKitTestCase(unittest.TestCase):
 
         dirpath = './tests/data/medkits'
         mk = MedKit('test_PAR2', dirpath, os.listdir(dirpath))
-        self.assertTrue(mk.check_and_repair(silent=True))  # sudo apt-get install par2 ?
+        self.assertTrue(
+            mk.check_and_repair(silent=True))  # sudo apt-get install par2 ?
 
 
 class ArchiveTestCase(unittest.TestCase):
@@ -221,12 +222,14 @@ class ArchiveTestCase(unittest.TestCase):
 
     def test_str(self):
         a = Archive(self.default_name)
-        self.assertEquals(str(a), 'archive_name (0 undefined ' \
-                          'archives)')
+        self.assertEquals(
+            str(a),
+            'archive_name (0 undefined archives)')
         a.archives = range(10)
         a.medkits = range(5)
-        self.assertEquals(str(a), 'archive_name (10 undefined ' \
-                          'archives, 5 par2 files)')
+        self.assertEquals(
+            str(a),
+            'archive_name (10 undefined archives, 5 par2 files)')
 
 
 suite = unittest.TestSuite([

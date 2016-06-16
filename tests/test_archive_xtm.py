@@ -35,7 +35,7 @@ class XtmArchiveTestCase(unittest.TestCase):
         archive = XtmArchive('archive', './path', filenames)
         self.assertTrue(archive._extract())
         self.assertEquals(system_commands, [
-            'dd if=./path/archive.001.xtm skip=1 ibs=104 ' \
+            'dd if=./path/archive.001.xtm skip=1 ibs=104 '
             'status=noxfer > archive 2>/dev/null',
             'cat ./path/archive.002.xtm >> archive',
             'cat ./path/archive.003.xtm >> archive'])
