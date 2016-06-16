@@ -32,7 +32,7 @@ class RenamedArchive(Archive):
             archives = finder.path_archives_found[self.path]
             for archive in archives:
                 if archive.name == self.name:
-                    archive.extract(False)
+                    return archive.extract(False)
 
     def remove(self):
         pass
