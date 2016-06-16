@@ -1,5 +1,5 @@
 """easy_extract module"""
-__version__ = '0.1.2.dev'
+__version__ = '0.1.2'
 __license__ = 'GPL'
 
 __author__ = 'Fantomas42'
