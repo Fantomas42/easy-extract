@@ -34,6 +34,8 @@ Options:
   -n, --not-repair   Do not try to repair archives on errors
   -c, --repair-only  Do only a check and repair operation
   -r, --recursive    Find archives recursively
+  -k, --keep         Do not delete archives on success
+  -x, --no-index     Do not index the extracted files
 
 Simply run **easy_extract** in the directory where the collections are: ::
 

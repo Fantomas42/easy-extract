@@ -97,6 +97,9 @@ def cmdline():
     parser.add_option('-r', '--recursive', dest='recursive',
                       action='store_true', default=False,
                       help='Find archives recursively')
+    parser.add_option('-k', '--keep', dest='clean',
+                      action='store_false', default=True,
+                      help='Do not delete archives on success')
     parser.add_option('-x', '--no-index', dest='index',
                       action='store_false', default=True,
                       help='Do not index the extracted files')
@@ -110,6 +113,6 @@ def cmdline():
     print '--** Easy Extract v%s **--' % __version__
     EasyExtract(directories, options.recursive,
                 options.force_extract, options.repair,
-                options.repair_only)
+                options.repair_only, options.clean)
     if options.index and not options.repair_only:
         EasyIndex(directories, options.recursive)

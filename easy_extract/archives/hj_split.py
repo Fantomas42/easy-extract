@@ -25,3 +25,6 @@ class HJSplitArchive(Archive):
             os.system('cat %s >> %s' % (archive, new_filename))
 
         return True
+
+    def remove(self):
+        pass
