@@ -3,8 +3,8 @@ import sys
 from optparse import OptionParser
 
 from easy_extract import __version__
-from easy_extract.archives.media import MediaArchive
 from easy_extract.archive_finder import ArchiveFinder
+from easy_extract.archives.media import MediaArchive
 
 
 class EasyIndex(ArchiveFinder):

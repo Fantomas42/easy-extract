@@ -3,10 +3,10 @@ import re
 
 from easy_extract.archive import Archive
 from easy_extract.archive_finder import ArchiveFinder
-from easy_extract.archives.xtm import XtmArchive
-from easy_extract.archives.rar import RarArchive
 from easy_extract.archives.hj_split import HJSplitArchive
+from easy_extract.archives.rar import RarArchive
 from easy_extract.archives.seven_zip import SevenZipArchive
+from easy_extract.archives.xtm import XtmArchive
 
 EXTENSIONS = [re.compile('\.\d+$', re.I)]
 

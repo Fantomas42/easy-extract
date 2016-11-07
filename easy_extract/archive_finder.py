@@ -1,6 +1,6 @@
 """Find and build the archives"""
-import os
 import operator
+import os
 
 
 class ArchiveFinder(object):
